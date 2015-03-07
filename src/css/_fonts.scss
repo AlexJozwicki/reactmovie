@@ -28,7 +28,6 @@ $font-style: false){
 @include embed-font("RobotoCondensed-Bold-webfont","../fonts/roboto","roboto-bold-condensed", normal, normal);
 @include embed-font("RobotoCondensed-Light-webfont","../fonts/roboto","roboto-light-condensed", normal, normal);
 
-
 $georgia: Georgia, Times, 'Times New Roman', serif;
 $helvetica: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $roboto-bold: "roboto-bold", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
@@ -39,8 +38,6 @@ $roboto-condensed: "roboto-condensed", "Helvetica Neue", "Helvetica", Helvetica,
 $roboto-light-condensed: "roboto-light-condensed", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $roboto-bold-condensed: "roboto-bold-condensed", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $ui-element-font: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-$wort-v3: "wort-v3", AdobeBlank;
-
 
 @mixin font-set-roboto-condensed($font-size: ""){
   font-family: $roboto-condensed;
