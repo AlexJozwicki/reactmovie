@@ -1,4 +1,4 @@
-var React = require('react/addons');
+var React = require("react/addons");
 
 var SelectLinkState = React.createClass({
     render: function() {
@@ -10,7 +10,7 @@ var SelectLinkState = React.createClass({
             );
         } else {
 
-            return(
+            return (
                 <select {...this.props} onChange={this.handleChange}>
                     {this.props.children}
                 </select>
@@ -40,7 +40,7 @@ var SelectLinkState = React.createClass({
         }
 
         // Fire onChange manually if it exists since we overwrote it
-        this.props.onChange && this.props.onChange(e);
+        if(this.props.onChange) { this.props.onChange(e); }
 
     }
 });

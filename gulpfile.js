@@ -1,7 +1,7 @@
 var connect     = require('gulp-connect'),
     del         = require('del'),
     gulp        = require('gulp'),
-    jshint      = require('gulp-jshint'),
+    eslint      = require('gulp-eslint'),
     karma       = require('karma').server,
     runSequence = require('run-sequence');
 
@@ -33,9 +33,9 @@ gulp.task('serve', function() {
 });
 
 gulp.task('lint', function(cb) {
-    gulp.src(['./src/js/**/*.js', '!./src/js/app.js'])
-        .pipe(jshint(jshintConfig))
-        .pipe(jshint.reporter('jshint-stylish'));
+    gulp.src(['./src/js/**/*.{js,jsx}', '!./src/js/app.js'])
+        .pipe(eslint())
+        .pipe(eslint.format());
     cb();
 });
 
@@ -62,7 +62,7 @@ gulp.task('html', function(){
 });
 
 gulp.task('watch', ['watchify'], function(cb) {
-    gulp.watch(['./src/js/**/*.js'], ['lint']);
+    gulp.watch(['./src/js/**/*.{js,jsx}'], ['lint']);
     gulp.watch(['./src/css/**/_*.scss', './src/css/**/*.scss'], ['sass']);
     gulp.watch(['./src/images/**/*.{gif,png,jpg}'], ['img']);
     gulp.watch('./src/*.html', ['html']);

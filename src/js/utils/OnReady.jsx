@@ -1,11 +1,11 @@
-var React = require('react/addons'),
-    Reflux = require('reflux'),
-    DefaultLoadingContent = require('./DefaultLoader');
+var React = require("react/addons"),
+    Reflux = require("reflux"),
+    DefaultLoadingContent = require("./DefaultLoader");
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var OnReadyActions = Reflux.createActions([
-    'updateStatus'
+    "updateStatus"
 ]);
 
 var OnReadyStore = Reflux.createStore({
@@ -23,31 +23,32 @@ var OnReadyStore = Reflux.createStore({
 
 var OnReadyMixin = function(loadingComponent, doAnimation) {
 
-    if(!loadingComponent)
+    if(!loadingComponent) {
         loadingComponent = DefaultLoadingContent;
+    }
 
     return {
 
         getInitialState: function(){
-            return {isReady:false}
+            return {isReady: false};
         },
 
         setReadyToRender: function(){
-            this.setState({isReady:true});
+            this.setState({isReady: true});
             OnReadyActions.updateStatus(true);
         },
 
         setNotReadyToRender: function(){
-            this.setState({isReady:false});
+            this.setState({isReady: false});
             OnReadyActions.updateStatus(false);
         },
 
         renderOnReady: function (renderContent) {
 
-            var key = 'onReady-loader';
+            var key = "onReady-loader";
             var content = loadingComponent;
             if(this.state.isReady) {
-                key = 'onReader-content';
+                key = "onReader-content";
                 content = renderContent.call( this );
             }
 
@@ -63,12 +64,12 @@ var OnReadyMixin = function(loadingComponent, doAnimation) {
 
 
         }
-    }
+    };
 
-}
+};
 
 module.exports = {
     OnReadyActions: OnReadyActions,
-    OnReadyMixin: OnReadyMixin,
-    OnReadyStore: OnReadyStore
+    OnReadyMixin  : OnReadyMixin,
+    OnReadyStore  : OnReadyStore
 };

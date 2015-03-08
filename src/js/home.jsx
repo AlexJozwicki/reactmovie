@@ -1,18 +1,8 @@
-var React = require('react/addons');
-var Reflux = require('reflux');
-var Router = require('react-router');
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
-var DefaultRoute = Router.DefaultRoute;
-var NotFoundRoute = Router.NotFoundRoute;
-
-var OnReadyMixin = require('./utils/OnReady').OnReadyMixin;
-var OnReadyStore = require('./utils/OnReady').OnReadyStore;
-
-var { Page1, Page2 } = require( './page' );
-
-var AppConfig = require('AppConfig');
-
+var React = require("react/addons");
+var Router = require("react-router");
+var AppConfig = require("AppConfig");
+var OnReadyMixin = require("./utils/OnReady").OnReadyMixin;
+var { Page1, Page2 } = require( "./page" );
 
 /**
  * Small loader
@@ -27,12 +17,12 @@ var NavBar = React.createClass({
 
     getInitialState: function() {
         return {
-            showSpinner:false
-        }
+            showSpinner: false
+        };
     },
 
     render: function() {
-        var spinnerClasses = React.addons.classSet({'fa fa-lg fa-spinner fa-spin':this.state.showSpinner});
+        var spinnerClasses = React.addons.classSet({"fa fa-lg fa-spinner fa-spin": this.state.showSpinner});
 
         return (
             <nav id='nav' className="navbar navbar-fixed-top" role="navigation">
@@ -43,7 +33,7 @@ var NavBar = React.createClass({
                         </a>
                     </li>
                     <li>
-                        <a href="#/page1"  className="navbar-link main-ui-link">
+                        <a href="#/page1" className="navbar-link main-ui-link">
                             Page1
                         </a>
                     </li>
@@ -75,7 +65,7 @@ var NavBar = React.createClass({
  */
 var Home = React.createClass({
 
-    mixins:[
+    mixins: [
         Router.Navigation,
         Router.State,
         OnReadyMixin(HomeLoader)
@@ -85,23 +75,23 @@ var Home = React.createClass({
         return {};
     },
 
-    componentDidMount:function(){
-        console.log('AppConfig', AppConfig);
+    componentDidMount: function(){
+        console.log("AppConfig", AppConfig);
         this.setReadyToRender();
     },
 
-    componentWillReceiveProps:function(newProps){
+    componentWillReceiveProps: function(){
         this.setReadyToRender();
     },
 
-    render:function(){
+    render: function(){
         var renderContent = function() {
             return (
                 <div ref="app" id="wrapper" >
                     <NavBar/>
                     <div id="side"></div>
                     <div id="content" className="container">
-                        <RouteHandler />
+                        <Router.RouteHandler />
                     </div>
                 </div>
             );
@@ -110,14 +100,13 @@ var Home = React.createClass({
     }
 });
 
-
 var routes = (
-    <Route path="/" handler={Home}>
-        <DefaultRoute handler={Page1} />
-        <Route name="page1" path="/page1" addHandlerKey={true} handler={Page1}/>
-        <Route name="page2" path="/page2" addHandlerKey={true} handler={Page2}/>
-        <NotFoundRoute handler={Page1}/>
-    </Route>
+    <Router.Route path="/" handler={Home}>
+        <Router.DefaultRoute handler={Page1} />
+        <Router.Route name="page1" path="/page1" addHandlerKey={true} handler={Page1}/>
+        <Router.Route name="page2" path="/page2" addHandlerKey={true} handler={Page2}/>
+        <Router.NotFoundRoute handler={Page1}/>
+    </Router.Route>
 );
 
 module.exports = routes;

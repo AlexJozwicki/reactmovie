@@ -1,9 +1,8 @@
-var React = require('react/addons');
-var Reflux = require('reflux');
+var React = require("react/addons");
 
 var Page1 = React.createClass({
-    render:() => {
-        return <div>Page1</div>
+    render: () => {
+        return <div>Page1</div>;
     }
 });
 

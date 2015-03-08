@@ -1,4 +1,4 @@
-var Utils = require('./Utils');
+var Utils = require("./Utils");
 
 var DeepLinkStateMixin = {
 
@@ -8,7 +8,7 @@ var DeepLinkStateMixin = {
 
     linkState: function(path){
         return {
-            value: Utils.getIn(this.state, path),
+            value        : Utils.getIn(this.state, path),
             requestChange: this._setPartialState.bind(null, this, path)
         };
     }
