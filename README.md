@@ -14,7 +14,7 @@ As example, we use in this sample app, react-router & reflux-js, and more...
 
 * npm / node (>0.10) : your preferred package manager will install it
 * sass / compass : gem install sass / gem install compass
-* gulp : npm install gulp
+* gulp : npm install gulp -g
 
 ## Start it :
 * before first run : npm install
