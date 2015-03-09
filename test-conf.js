@@ -1,10 +1,8 @@
-const host = 'localhost:9000';
+const host = 'query.yahooapis.com';
 
 var AppConfig = {
     host            : host,
-    adminWebHost    : `http://${host}`,
-    publicWebHost   : `http://${host}`,
-    notificationHost: `ws://${host}`
+    publicWebHost   : `http://${host}`
 };
 
 module.exports = AppConfig;
