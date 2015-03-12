@@ -2,7 +2,7 @@ var React = require("react/addons");
 var Router = require("react-router");
 var AppConfig = require("AppConfig");
 var OnReadyMixin = require("./utils/OnReady").OnReadyMixin;
-var { Page1, Page2 } = require( "./page" );
+var { Page1, Page2, Page3 } = require( "./page" );
 
 /**
  * Small loader
@@ -43,13 +43,18 @@ var NavBar = React.createClass({
                         </a>
                     </li>
                     <li>
+                        <a href="#/page3" className="navbar-link main-ui-link">
+                            Page3
+                        </a>
+                    </li>
+                    <li>
                         <p className='navbar-text'><i className={spinnerClasses}/></p>
                     </li>
                 </ul>
                 <ul className="navbar-right">
                     <li>
                         <a href="#" title="Logout" className="navbar-link">
-                            <i className='fa fa-sign-out'/>&nbsp;&nbsp;Sponge bob
+                            <i className='fa fa-sign-out'/>&nbsp;Sponge bob
                         </a>
                     </li>
                 </ul>
@@ -105,6 +110,7 @@ var routes = (
         <Router.DefaultRoute handler={Page1} />
         <Router.Route name="page1" path="/page1" addHandlerKey={true} handler={Page1}/>
         <Router.Route name="page2" path="/page2" addHandlerKey={true} handler={Page2}/>
+        <Router.Route name="page3" path="/page3" addHandlerKey={true} handler={Page3}/>
         <Router.NotFoundRoute handler={Page1}/>
     </Router.Route>
 );
