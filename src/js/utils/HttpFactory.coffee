@@ -2,7 +2,7 @@ Promise     = require('es6-promise').Promise
 _           = require( 'lodash' )
 RestError   = require( './RestError' )
 
-defaultConfig=
+defaultConfig =
     headers: []
     timeoutDelay: 30 * 1000
 
@@ -48,7 +48,7 @@ HttpFactory = ( interceptor ) ->
             req = new XMLHttpRequest
             config = interceptor.request( _.merge( config, defaultConfig ) )
             req.open 'GET', config.url
-            req.withCredentials = true
+            req.withCredentials = config.withCredentials
 
             for header in config.headers
                 req.setRequestHeader header.header, header.value
@@ -68,7 +68,7 @@ HttpFactory = ( interceptor ) ->
             req = new XMLHttpRequest
             config = interceptor.request( _.merge( config, defaultConfig ) )
             req.open 'POST', config.url
-            req.withCredentials = true
+            req.withCredentials = config.withCredentials
 
             for header in config.headers
                 req.setRequestHeader header.header, header.value
