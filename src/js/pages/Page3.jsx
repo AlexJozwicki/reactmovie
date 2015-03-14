@@ -1,23 +1,22 @@
-var React = require("react/addons"),
-    $ = require("jquery");
+var React = require("react/addons");
+var { InfodataApi } = require("../api");
 
 var Page3 = React.createClass({
 
-    getInitialState: () => {
+    getInitialState() {
         return {data: {}};
     },
 
-    componentDidMount: function() {
-        var self = this;
-        $.ajax({
-            url: "http://kpmg.infodata.lu/dos/AC.KPMG/detail",
-            success: data => {
-                self.setState({data: data[0]});
-            }
-        })
+    componentDidMount() {
+
+        InfodataApi.getDosDetails()
+            .then((data) => {
+                this.setState({data: data[0]});
+            })
+            .catch((e) => {});
     },
 
-    render: function() {
+    render() {
         return <div><code>{JSON.stringify(this.state.data.exe)}</code></div>;
     }
 });

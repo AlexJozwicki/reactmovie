@@ -4,5 +4,6 @@
  * @package page
  */
 module.exports = {
-    YahooApi: require( "./YahooApi" )
+    YahooApi: require( "./YahooApi" ),
+    InfodataApi: require( "./InfodataApi" )
 };

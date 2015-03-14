@@ -1,8 +1,15 @@
-const host = 'query.yahooapis.com';
+const yahooHost = "query.yahooapis.com";
+const infodataHost = "kpmg.infodata.lu";
 
 var AppConfig = {
-    host            : host,
-    publicWebHost   : `http://${host}`
+    Yahoo: {
+        host            : yahooHost,
+        publicWebHost   : `http://${yahooHost}`
+    },
+    Infodata: {
+        host            : infodataHost,
+        publicWebHost   : `http://${infodataHost}`
+    }
 };
 
 module.exports = AppConfig;
