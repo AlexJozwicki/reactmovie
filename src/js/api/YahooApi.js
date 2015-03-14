@@ -22,7 +22,7 @@ var YahooApi = {
 
             var flattenQuotes = "";
             if(Utils.js.isArray(quotes)) {
-                flattenQuotes = quotes.map( q => { return `\"${q}\"`; }).join(",");
+                flattenQuotes = quotes.map( q => `\"${q}\"` ).join(",");
             } else {
                 flattenQuotes = `\"${quotes}\"`;
             }

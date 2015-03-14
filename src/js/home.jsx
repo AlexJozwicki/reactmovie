@@ -2,7 +2,7 @@ var React = require("react/addons");
 var Router = require("react-router");
 var AppConfig = require("AppConfig");
 var OnReadyMixin = require("./utils/OnReady").OnReadyMixin;
-var { Page1, Page2, Page3 } = require( "./page" );
+var { Page1, Page2, Page3 } = require( "./pages" );
 
 /**
  * Small loader
@@ -15,13 +15,13 @@ var HomeLoader = <div id="loading-home" className='container'>
 
 var NavBar = React.createClass({
 
-    getInitialState: function() {
+    getInitialState() {
         return {
             showSpinner: false
         };
     },
 
-    render: function() {
+    render() {
         var spinnerClasses = React.addons.classSet({"fa fa-lg fa-spinner fa-spin": this.state.showSpinner});
 
         return (
@@ -76,21 +76,20 @@ var Home = React.createClass({
         OnReadyMixin(HomeLoader)
     ],
 
-    getInitialState: function() {
+    getInitialState() {
         return {};
     },
 
-    componentDidMount: function(){
-        console.log("AppConfig", AppConfig);
+    componentDidMount(){
         this.setReadyToRender();
     },
 
-    componentWillReceiveProps: function(){
+    componentWillReceiveProps(){
         this.setReadyToRender();
     },
 
-    render: function(){
-        var renderContent = function() {
+    render(){
+        var renderContent = () => {
             return (
                 <div ref="app" id="wrapper" >
                     <NavBar/>

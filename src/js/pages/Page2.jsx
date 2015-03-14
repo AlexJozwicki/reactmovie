@@ -1,7 +1,8 @@
 var React = require("react/addons");
 
+
 var Page2 = React.createClass({
-    render: () => {
+    render() {
         return <div>Page2</div>;
     }
 });
