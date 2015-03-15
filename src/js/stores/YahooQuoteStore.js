@@ -11,8 +11,7 @@ const defaultQuotes = { // default quotes
     YHOO:{},
     AAPL:{},
     GOOG:{},
-    MSFT:{},
-    GE:{}
+    MSFT:{}
 };
 
 var YahooQuoteStore = Reflux.createStore({

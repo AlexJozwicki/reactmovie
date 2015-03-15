@@ -11,13 +11,13 @@ var OnReadyActions = Reflux.createActions([
 var OnReadyStore = Reflux.createStore({
     listenables: OnReadyActions,
 
-    init: function() {
-        var isReady = false;
+    init() {
+        this.isReady = false;
     },
 
-    onUpdateStatus: function(isReady){
+    onUpdateStatus(isReady) {
         this.isReady = isReady;
-        this.trigger(isReady);
+        this.trigger(this.isReady);
     }
 });
 

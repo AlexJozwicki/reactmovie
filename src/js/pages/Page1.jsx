@@ -3,6 +3,7 @@ var Reflux = require("reflux");
 var YahooQuoteStore = require("../stores/YahooQuoteStore");
 var YahooQuoteActions = require("../stores/YahooQuoteActions");
 var PageLoader = require("./PageLoader");
+var OnReadyActions = require("../utils/OnReady").OnReadyActions;
 var OnReadyMixin = require("../utils/OnReady").OnReadyMixin;
 
 var QuotesLoader = <PageLoader message="Retrieving quotes..." />;
@@ -22,6 +23,7 @@ var Page1 = React.createClass({
 
     _initQuotes() {
         this.setNotReadyToRender();
+        OnReadyActions.updateStatus(false);
         YahooQuoteActions.refreshQuotes();
     },
 
@@ -34,7 +36,10 @@ var Page1 = React.createClass({
     },
 
     onQuotesUpdate(quotes) {
-        this.setState({quotes: quotes}, () => this.setReadyToRender());
+        this.setState({quotes: quotes}, () => {
+            OnReadyActions.updateStatus(true);
+            this.setReadyToRender()
+        });
     },
 
     onRemoveQuote(symbol) {
@@ -47,6 +52,7 @@ var Page1 = React.createClass({
             var input = e.target.value.replace(/[\[\]{},;]/g,'');
             if(input && input.length >0) {
                 YahooQuoteActions.addQuoteSymbols([input.toUpperCase()]);
+                OnReadyActions.updateStatus(false);
             }
             e.target.value = "";
         }
@@ -85,7 +91,7 @@ var Page1 = React.createClass({
                 {Object.keys(this.state.quotes).sort().map( symbol => this.renderQuote(this.state.quotes[symbol]) )}
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                     <div className="quote thumbnail">
-                        <input className="new-quote-input" type="text" placeholder="type a new quote symbol (i.e. 'ge')" onKeyDown={this.handleKeyDown} />
+                        <input className="new-quote-input" type="text" placeholder="type a quote (i.e. 'ge'), press enter" onKeyDown={this.handleKeyDown} />
                     </div>
                 </div>
             </div>

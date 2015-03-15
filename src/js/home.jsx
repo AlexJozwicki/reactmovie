@@ -1,6 +1,8 @@
 var React = require("react/addons");
 var Router = require("react-router");
+var Reflux = require("reflux");
 var AppConfig = require("AppConfig");
+var OnReadyStore = require("./utils/OnReady").OnReadyStore;
 var OnReadyMixin = require("./utils/OnReady").OnReadyMixin;
 var { Page1, Page2, Page3 } = require( "./pages" );
 
@@ -15,13 +17,27 @@ var HomeLoader = <div id="loading-home" className='container'>
 
 var NavBar = React.createClass({
 
+    mixin:[Reflux.connect(OnReadyStore,'isReady')],
+
     getInitialState() {
         return {
             showSpinner: false
         };
     },
 
+    onUpdateStatus(isReady) {
+        console.log("??", isReady);
+        if(isReady) {
+            setTimeout(function() {  // The spinner is displayed for at least 500ms
+                this.setState({showSpinner:false});
+            }.bind(this), 500);
+        } else {
+            this.setState({showSpinner:true});
+        }
+    },
+
     render() {
+        
         var spinnerClasses = React.addons.classSet({"fa fa-lg fa-spinner fa-spin": this.state.showSpinner});
 
         return (
