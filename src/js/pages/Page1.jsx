@@ -9,15 +9,19 @@ var Page1 = React.createClass({
 
     getInitialState() {
         return ({
+            defaultQuotesSymbols:["YHOO", "AAPL", "GOOG", "MSFT", "GE"],
             quotes:[]
         });
     },
 
     componentDidMount() {
-        YahooQuoteActions.getQuotes(["YHOO", "AAPL", "GOOG", "MSFT", "GE"]);
+        YahooQuoteActions.addQuoteSymbols(this.state.defaultQuotesSymbols);
     },
 
+    // As react-router could trigger refresh of page without component dismount, but with componentWillReceiveProps,
+    // so we have to manage this case.
     componentWillReceiveProps()  {
+        YahooQuoteActions.refreshQuotes();
     },
 
     renderQuote(quote) {
@@ -39,7 +43,7 @@ var Page1 = React.createClass({
         return (
             <div>
                 <div className="col-sm-12">{YahooQuoteStore.lastUpdateAt.fromNow()}</div>
-                {this.state.quotes.map(q => this.renderQuote(q) )}
+                {Object.keys(this.state.quotes).map(symbol => this.renderQuote(this.state.quotes[symbol]) )}
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                     <div className="thumbnail">
                         <span>A new one</span>

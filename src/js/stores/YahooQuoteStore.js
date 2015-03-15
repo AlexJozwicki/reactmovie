@@ -7,17 +7,23 @@ const YahooDateTimePattern = "YYYY-MM-DD[T]HH:mm:ssZ";
 const aLongTimeAgo = "2000-01-01T00:00:00Z";
 
 var YahooQuoteStore = Reflux.createStore({
+
+    listenables:YahooQuoteActions,
+
     init() {
-        this.quotes = [];
+        this.quotes = {};
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
-        this.listenTo( YahooQuoteActions.getQuotes.completed,  'onQuotesLoaded' );
-        this.listenTo( YahooQuoteActions.getQuotes.failed,     'onQuotesFailed' );
     },
 
-    onQuotesLoaded(apiResponse) {
+    onRefreshQuotes() {
+        var quotesSymbols = Object.keys(this.quotes);
+        YahooQuoteActions.getQuotes(quotesSymbols);
+    },
+
+    onGetQuotesCompleted(apiResponse) {
 
         /*
-        * The object return by Yahoo API has this structure :
+        * The object returned by Yahoo API has this structure :
         *
         * - query:object
         *   - count:number
@@ -28,15 +34,39 @@ var YahooQuoteStore = Reflux.createStore({
         * */
 
         if(apiResponse.query && apiResponse.query.count > 0 && apiResponse.query.results.quote) {
-            this.quotes = apiResponse.query.results.quote.map ( r => YahooQuote.fromObject(r) );
+            //this.quotes = apiResponse.query.results.quote.map ( r => YahooQuote.fromObject(r) );
+            var quotes = apiResponse.query.results.quote.reduce ( (quotes, quoteObj) => {
+                var quote = YahooQuote.fromObject(quoteObj);
+                quotes[quote.symbol] = quote;
+                return quotes;
+            }, this.quotes );
+            this.quotes = quotes;
+
             this.lastUpdateAt = Moment(apiResponse.query.created, YahooDateTimePattern);
             this.trigger(this.quotes);
         }
     },
 
-    onQuotesFailed(someError) {
-        console.log('quotes api error', someError);
+    onGetQuotesFailed(someError) {
+        console.log('something went wrong with quotes api. Error:', someError);
+    },
+
+    onAddQuoteSymbols(symbols) {
+        symbols.forEach((symbol) => {
+            if(!this.quotes[symbol]) {
+                this.quotes[symbol] = {};
+            }
+        });
+        YahooQuoteActions.refreshQuotes();
+    },
+
+    onRemoveQuoteSymbols(symbols) {
+        symbols.forEach((symbol) => {
+            delete this.quotes[symbol];
+        });
+        this.trigger(this.quotes);
     }
+
 });
 
 module.exports = YahooQuoteStore;
