@@ -33,7 +33,7 @@ gulp.task('serve', function() {
 });
 
 gulp.task('lint', function(cb) {
-    gulp.src(['./src/js/**/*.{js,jsx}', '!./src/js/app.js'])
+    gulp.src(['./src/js/**/*.js', '!./src/js/app.js'])
         .pipe(eslint())
         .pipe(eslint.format());
     cb();
