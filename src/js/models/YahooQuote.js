@@ -1,8 +1,6 @@
 /* @flow */
 var _               = require( "lodash" );
-var Moment          = require( "moment" );
 var Rtti            = require( "./Rtti");
-
 
 /**
  * Represents a YahooQuote.

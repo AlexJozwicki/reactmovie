@@ -46,7 +46,7 @@ var Page1 = React.createClass({
             e.preventDefault();
             var input = e.target.value.replace(/[\[\]{},;]/g,'');
             if(input && input.length >0) {
-                YahooQuoteActions.addQuoteSymbols([input]);
+                YahooQuoteActions.addQuoteSymbols([input.toUpperCase()]);
             }
             e.target.value = "";
         }
