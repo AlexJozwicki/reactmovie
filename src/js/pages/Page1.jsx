@@ -10,15 +10,13 @@ var QuotesLoader = <PageLoader message="Retrieving quotes..." />;
 
 var Page1 = React.createClass({
 
-    mixins:[
+    mixins: [
         OnReadyMixin(QuotesLoader, true),
-        Reflux.listenTo(YahooQuoteStore,"onQuotesUpdate")
+        Reflux.listenTo(YahooQuoteStore, "onQuotesUpdate")
     ],
 
     getInitialState() {
-        return ({
-            quotes:{}
-        });
+        return ({ quotes: {} });
     },
 
     _initQuotes() {
@@ -38,7 +36,7 @@ var Page1 = React.createClass({
     onQuotesUpdate(quotes) {
         this.setState({quotes: quotes}, () => {
             OnReadyActions.updateStatus(true);
-            this.setReadyToRender()
+            this.setReadyToRender();
         });
     },
 
@@ -47,10 +45,10 @@ var Page1 = React.createClass({
     },
 
     handleKeyDown: function(e){
-        if(e.type == 'keydown' && e.keyCode === 13) {
+        if(e.type === "keydown" && e.keyCode === 13) {
             e.preventDefault();
-            var input = e.target.value.replace(/[\[\]{},;]/g,'');
-            if(input && input.length >0) {
+            var input = e.target.value.replace(/[\[\]{},;]/g, "");
+            if(input && input.length > 0) {
                 YahooQuoteActions.addQuoteSymbols([input.toUpperCase()]);
                 OnReadyActions.updateStatus(false);
             }

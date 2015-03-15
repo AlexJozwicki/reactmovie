@@ -1,6 +1,6 @@
 var InfodataConfig = require("AppConfig").Infodata;
 var Resource = require("./Resource").Resource;
-var { Uri, Utils} = require("../utils/index");
+var { Uri } = require("../utils/index");
 
 var resource = new Resource();
 

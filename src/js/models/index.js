@@ -4,5 +4,5 @@
  * @package models
  */
 module.exports = {
-    YahooQuote             : require( './YahooQuote' )
+    YahooQuote: require( "./YahooQuote" )
 };

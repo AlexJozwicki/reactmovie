@@ -1,6 +1,6 @@
 /* @flow */
-var _               = require( "lodash" );
-var Rtti            = require( "./Rtti");
+var _ = require( "lodash" );
+var Rtti = require( "./Rtti");
 
 /**
  * Represents a YahooQuote.
@@ -27,7 +27,7 @@ class YahooQuote extends Rtti {
 }
 
 /** @type {String} Static RTTI: must be done manually since names are uglified */
-YahooQuote.class = 'YahooQuote';
+YahooQuote.class = "YahooQuote";
 
 module.exports = YahooQuote;
 

@@ -8,15 +8,15 @@ var isObject = require("../utils/Utils").js.isObject;
 const YahooDateTimePattern = "YYYY-MM-DD[T]HH:mm:ssZ";
 const aLongTimeAgo = "2000-01-01T00:00:00Z";
 const defaultQuotes = { // default quotes
-    YHOO:{},
-    AAPL:{},
-    GOOG:{},
-    MSFT:{}
+    YHOO: {},
+    AAPL: {},
+    GOOG: {},
+    MSFT: {}
 };
 
 var YahooQuoteStore = Reflux.createStore({
 
-    listenables:YahooQuoteActions,
+    listenables: YahooQuoteActions,
 
     init() {
         this.quotes = defaultQuotes;
@@ -52,7 +52,7 @@ var YahooQuoteStore = Reflux.createStore({
             var apiQuotes = apiResponse.query.results.quote;
 
             if(isArray(apiQuotes)) {
-                var quotes = apiQuotes.reduce ( (quotes, quoteObj) => {
+                var quotes = apiQuotes.reduce( (quotes, quoteObj) => {
                     var quote = YahooQuote.fromObject(quoteObj);
                     quotes[quote.symbol] = quote;
                     return quotes;
@@ -70,7 +70,7 @@ var YahooQuoteStore = Reflux.createStore({
     },
 
     onGetQuotesFailed(someError) {
-        console.log('something went wrong with quotes api. Error:', someError);
+        console.log("something went wrong with quotes api. Error:", someError);
     },
 
     onAddQuoteSymbols(symbols) {

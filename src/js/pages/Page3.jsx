@@ -13,7 +13,7 @@ var Page3 = React.createClass({
             .then((data) => {
                 this.setState({data: data[0]});
             })
-            .catch((e) => {});
+            .catch((e) => { console.log("some errors", e); });
     },
 
     render() {

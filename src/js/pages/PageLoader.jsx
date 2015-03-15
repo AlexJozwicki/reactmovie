@@ -1,8 +1,8 @@
-var React = require('react/addons');
+var React = require("react/addons");
 
 var PageLoader = React.createClass({
     getDefaultProps() {
-        message:'loading page...'
+        return { message: "loading page..." };
     },
 
     render(){
