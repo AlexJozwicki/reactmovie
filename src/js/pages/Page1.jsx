@@ -2,38 +2,77 @@ var React = require("react/addons");
 var Reflux = require("reflux");
 var YahooQuoteStore = require("../stores/YahooQuoteStore");
 var YahooQuoteActions = require("../stores/YahooQuoteActions");
+var PageLoader = require("./PageLoader");
+var OnReadyMixin = require("../utils/OnReady").OnReadyMixin;
+
+var QuotesLoader = <PageLoader message="Retrieving quotes..." />;
 
 var Page1 = React.createClass({
 
-    mixins:[Reflux.connect(YahooQuoteStore,"quotes")],
+    mixins:[
+        OnReadyMixin(QuotesLoader, true),
+        Reflux.listenTo(YahooQuoteStore,"onQuotesUpdate")
+    ],
 
     getInitialState() {
         return ({
-            defaultQuotesSymbols:["YHOO", "AAPL", "GOOG", "MSFT", "GE"],
-            quotes:[]
+            quotes:{}
         });
     },
 
-    componentDidMount() {
-        YahooQuoteActions.addQuoteSymbols(this.state.defaultQuotesSymbols);
+    _initQuotes() {
+        this.setNotReadyToRender();
+        YahooQuoteActions.refreshQuotes();
     },
 
-    // As react-router could trigger refresh of page without component dismount, but with componentWillReceiveProps,
-    // so we have to manage this case.
-    componentWillReceiveProps()  {
-        YahooQuoteActions.refreshQuotes();
+    componentDidMount() {
+        this._initQuotes();
+    },
+
+    componentWillReceiveProps() {
+        this._initQuotes();
+    },
+
+    onQuotesUpdate(quotes) {
+        this.setState({quotes: quotes}, () => this.setReadyToRender());
+    },
+
+    onRemoveQuote(symbol) {
+        YahooQuoteActions.removeQuoteSymbols([symbol]);
+    },
+
+    handleKeyDown: function(e){
+        if(e.type == 'keydown' && e.keyCode === 13) {
+            e.preventDefault();
+            var input = e.target.value.replace(/[\[\]{},;]/g,'');
+            if(input && input.length >0) {
+                YahooQuoteActions.addQuoteSymbols([input]);
+            }
+            e.target.value = "";
+        }
+    },
+
+    renderQuoteDetails(quote) {
+        if(quote.Name) {
+            return [
+                <span key="qname"><b>{quote.Name}</b> <small>({quote.symbol})</small></span>,
+                <ul key="qdetail">
+                    <li>{quote.BookValue} {quote.Currency}</li>
+                    <li>{quote.StockExchange}</li>
+                    <li>{quote.Open} / {quote.DaysRange}</li>
+                </ul>
+            ];
+        } else {
+            return <span key="notfound">Quote with symbol <b>[{quote.symbol}]</b> was not found</span>;
+        }
     },
 
     renderQuote(quote) {
         return (
             <div key={quote.symbol} className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                 <div className="quote thumbnail">
-                    <span><b>{quote.Name}</b> <small>({quote.symbol})</small></span>
-                    <ul>
-                        <li>{quote.BookValue} {quote.Currency}</li>
-                        <li>{quote.StockExchange}</li>
-                        <li>{quote.Open} / {quote.DaysRange}</li>
-                    </ul>
+                    {this.renderQuoteDetails(quote)}
+                    <button type="button" onClick={this.onRemoveQuote.bind(null, quote.symbol)} className="btn btn-remove btn-warning btn-xs">Remove</button>
                 </div>
             </div>
         );
@@ -43,10 +82,10 @@ var Page1 = React.createClass({
         return (
             <div>
                 <div className="col-sm-12">{YahooQuoteStore.lastUpdateAt.fromNow()}</div>
-                {Object.keys(this.state.quotes).map(symbol => this.renderQuote(this.state.quotes[symbol]) )}
+                {Object.keys(this.state.quotes).sort().map( symbol => this.renderQuote(this.state.quotes[symbol]) )}
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    <div className="thumbnail">
-                        <span>A new one</span>
+                    <div className="quote thumbnail">
+                        <input className="new-quote-input" type="text" placeholder="type a new quote symbol (i.e. 'ge')" onKeyDown={this.handleKeyDown} />
                     </div>
                 </div>
             </div>
@@ -54,7 +93,7 @@ var Page1 = React.createClass({
     },
 
     render() {
-        return <div>{this.renderQuotes()}</div>;
+        return this.renderOnReady( this.renderQuotes );
     }
 });
 

@@ -2,10 +2,10 @@ var YahooConfig = require("AppConfig").Yahoo;
 var Resource = require("./Resource").Resource;
 var { Uri, Utils} = require("../utils/index");
 
-// Yahoo query for Quotes :
-// q=select * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")
+// Yahoo query params for Quotes :
+// q= select * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")
 // env= http://datatables.org/alltables.env
-// format=json
+// format= json
 
 var resource = new Resource();
 

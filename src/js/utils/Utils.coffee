@@ -39,6 +39,9 @@ Utils.js =
     isArray:
         Array.isArray || (obj) -> return {}.toString.call(obj) is '[object Array]'
 
+    isObject: (obj) ->
+        Object.prototype.toString.call(obj) == '[object Object]'
+
     curry: (f) -> do (recur = (as) ->
         next = (bs...) ->
             args = (as or [])[0..]
