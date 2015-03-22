@@ -14,7 +14,7 @@ const Interceptors = {
                 if(response) {
                     return JSON.parse(response);
                 } else {
-                    return;
+                    return false;
                 }
             }
         },
@@ -53,7 +53,7 @@ const Interceptors = {
                     return JSON.parse(response);
                 }
                 else {
-                    return;
+                    return false;
                 }
             }
         },

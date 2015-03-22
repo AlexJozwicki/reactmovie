@@ -1,7 +1,9 @@
 var React = require("react/addons");
+var Immutable = require("immutable");
 var Reflux = require("reflux");
 var YahooQuoteStore = require("../stores/YahooQuoteStore");
 var YahooQuoteActions = require("../stores/YahooQuoteActions");
+var YahooQuote = require("./components/YahooQuote");
 var PageLoader = require("./PageLoader");
 var OnReadyActions = require("../utils/OnReady").OnReadyActions;
 var OnReadyMixin = require("../utils/OnReady").OnReadyMixin;
@@ -12,11 +14,13 @@ var Page1 = React.createClass({
 
     mixins: [
         OnReadyMixin(QuotesLoader, true),
-        Reflux.listenTo(YahooQuoteStore, "onQuotesUpdate")
+        Reflux.listenTo(YahooQuoteStore, "onQuotesUpdate"),
+        React.addons.PureRenderMixin
     ],
 
     getInitialState() {
         return ({ quotes: {} });
+        //return ({});
     },
 
     _initQuotes() {
@@ -40,10 +44,6 @@ var Page1 = React.createClass({
         });
     },
 
-    onRemoveQuote(symbol) {
-        YahooQuoteActions.removeQuoteSymbols([symbol]);
-    },
-
     handleKeyDown: function(e){
         if(e.type === "keydown" && e.keyCode === 13) {
             e.preventDefault();
@@ -56,37 +56,12 @@ var Page1 = React.createClass({
         }
     },
 
-    renderQuoteDetails(quote) {
-        if(quote.Name) {
-            return [
-                <span key="qname"><b>{quote.Name}</b> <small>({quote.symbol})</small></span>,
-                <ul key="qdetail">
-                    <li>{quote.BookValue} {quote.Currency}</li>
-                    <li>{quote.StockExchange}</li>
-                    <li>{quote.Open} / {quote.DaysRange}</li>
-                </ul>
-            ];
-        } else {
-            return <span key="notfound">Quote with symbol <b>[{quote.symbol}]</b> was not found</span>;
-        }
-    },
-
-    renderQuote(quote) {
-        return (
-            <div key={quote.symbol} className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                <div className="quote thumbnail">
-                    {this.renderQuoteDetails(quote)}
-                    <button type="button" onClick={this.onRemoveQuote.bind(null, quote.symbol)} className="btn btn-remove btn-warning btn-xs">Remove</button>
-                </div>
-            </div>
-        );
-    },
-
     renderQuotes() {
+        var symbols = this.state.quotes.keySeq().toArray();
         return (
             <div>
                 <div className="col-sm-12">{YahooQuoteStore.lastUpdateAt.fromNow()}</div>
-                {Object.keys(this.state.quotes).sort().map( symbol => this.renderQuote(this.state.quotes[symbol]) )}
+                {symbols.map(s => <YahooQuote key={s} quote={this.state.quotes.get(s)} />)}
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                     <div className="quote thumbnail">
                         <input className="new-quote-input" type="text" placeholder="type a quote (i.e. 'ge'), press enter" onKeyDown={this.handleKeyDown} />

@@ -1,4 +1,5 @@
 var Reflux = require("reflux");
+var Immutable = require("immutable");
 var Moment = require("moment");
 var YahooQuoteActions = require("./YahooQuoteActions");
 var { YahooQuote } = require("../models");
@@ -19,16 +20,16 @@ var YahooQuoteStore = Reflux.createStore({
     listenables: YahooQuoteActions,
 
     init() {
-        this.quotes = defaultQuotes;
+        this.quotes = Immutable.Map(defaultQuotes);
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
     },
 
     onRefreshQuotes() {
-        var quotesSymbols = Object.keys(this.quotes);
+        var quotesSymbols = this.quotes.keySeq().toArray();
         if(quotesSymbols.length > 0) {
             YahooQuoteActions.getQuotes(quotesSymbols);
         } else {
-            this.quotes = {};
+            this.quotes = this.quotes.clear();
             this.lastUpdateAt = Moment();
             this.trigger(this.quotes);
         }
@@ -52,16 +53,16 @@ var YahooQuoteStore = Reflux.createStore({
             var apiQuotes = apiResponse.query.results.quote;
 
             if(isArray(apiQuotes)) {
-                var quotes = apiQuotes.reduce( (quotes, quoteObj) => {
-                    var quote = YahooQuote.fromObject(quoteObj);
-                    quotes[quote.symbol] = quote;
-                    return quotes;
-                }, this.quotes );
-                this.quotes = quotes;
+                this.quotes = this.quotes.withMutations( (currentQuotes) => {
+                    apiQuotes.forEach((quoteObj) => {
+                        var quote = YahooQuote.fromObject(quoteObj);
+                        currentQuotes.set(quote.symbol, quote);
+                    });
+                }).sortBy(q => q.symbol);
 
             } else if(isObject(apiQuotes)) {
                 var quote = YahooQuote.fromObject(apiQuotes);
-                this.quotes[quote.symbol] = quote;
+                this.quotes = this.quotes.set(quote.symbol, quote).sortBy(q => q.symbol);
             }
 
             this.lastUpdateAt = Moment(apiResponse.query.created, YahooDateTimePattern);
@@ -74,17 +75,21 @@ var YahooQuoteStore = Reflux.createStore({
     },
 
     onAddQuoteSymbols(symbols) {
-        symbols.forEach((symbol) => {
-            if(!this.quotes[symbol]) {
-                this.quotes[symbol] = {};
-            }
+        this.quotes = this.quotes.withMutations( (currentQuotes) => {
+            symbols.forEach((symbol) => {
+                if(!currentQuotes.has(symbol)) {
+                    currentQuotes.set(symbol, {});
+                }
+            });
         });
         YahooQuoteActions.refreshQuotes();
     },
 
     onRemoveQuoteSymbols(symbols) {
-        symbols.forEach((symbol) => {
-            delete this.quotes[symbol];
+        this.quotes = this.quotes.withMutations( (currentQuotes) => {
+            symbols.forEach((symbol) => {
+                currentQuotes.delete(symbol);
+            });
         });
         this.trigger(this.quotes);
     }

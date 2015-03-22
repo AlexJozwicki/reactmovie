@@ -1,21 +1,21 @@
 var connect      = require('gulp-connect'),
     gulp         = require('gulp'),
     handleErrors = require('../utils/handleErrors'),
-    sass         = require('gulp-ruby-sass');
+    sass         = require('gulp-ruby-sass'),
+    sourcemaps   = require('gulp-sourcemaps');
 
 require('../config');
 
 gulp.task('sass', ['config'], function () {
-    return gulp.src('./src/css/main.scss')
-        .pipe(sass({
+    return sass('./src/css/main.scss', {
             compass: true,
             bundleExec: false,
             precision: 10,
             loadPath: [global.bootstrapPath+'stylesheets/', global.fontawesomePath+'scss/'],
-            sourcemap: false              //TODO: upgrade to SASS 3.3.x to support sourcemap
-            //sourcemapPath: './src/css/' //TODO: upgrade to SASS 3.3.x to support sourcemap
-        }))
+            sourcemap: true
+        })
         .on('error', handleErrors)
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('./build/css/'))
         .pipe(connect.reload());
 });
