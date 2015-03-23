@@ -1,3 +1,4 @@
+var _ = require( 'lodash' );
 var React = require("react/addons");
 var Reflux = require("reflux");
 var YahooQuoteStore = require("../stores/YahooQuoteStore");
@@ -8,67 +9,109 @@ var OnReadyActions = require("../utils/OnReady").OnReadyActions;
 var OnReadyMixin = require("../utils/OnReady").OnReadyMixin;
 
 var QuotesLoader = <PageLoader message="Retrieving quotes..." />;
+/*
+class Reflux extends React.Component {
+    constructor( props ) {
+        super( props );
+        this.subscriptions = [];
+    }
 
-var Page1 = React.createClass({
+    listenTo( store, callback ) {
+        this.subscriptions.push( store.listen( callback ) );
+    }
 
-    mixins: [
-        OnReadyMixin(QuotesLoader, true),
-        Reflux.listenTo(YahooQuoteStore, "onQuotesUpdate")
-    ],
+    componentWillUnmount() {
+        this.subscriptions.forEach( ( sub ) => sub() );
+    }
+}*/
 
-    getInitialState() {
-        return ({});
-    },
+class FluxComponent extends React.Component {
+    constructor( props, stores ) {
+        super( props );
+        this.state = {};
 
-    _initQuotes() {
-        this.setNotReadyToRender();
-        OnReadyActions.updateStatus(false);
-        YahooQuoteActions.refreshQuotes();
-    },
+        for( var key in stores ) {
+            this.state[key] = {};
+            stores[key].listen( ( value ) => this.setState( { [key]: value } ) );
+        }
+    }
+}
+
+class FluxAsyncComponent extends FluxComponent {
+    constructor( props, stores ) {
+        super( props, stores );
+        this.state = { render: false };
+    }
+
+    resolve( action, reaction, result ) {
+        var thisComponent = this;
+
+        this.setState( {render: false}, () => {
+            var unsubscribe = reaction.listen( function() {
+                unsubscribe();
+                if( _.isFunction( result ) ) {
+                    result.apply( thisComponent, arguments );
+                    thisComponent.setState( { render: true } );
+                }
+                else {
+                    thisComponent.setState( { render: true, [result]: arguments[0] } );
+                }
+            });
+            action();
+        } );
+    }
 
     componentDidMount() {
-        this._initQuotes();
-    },
+        this.load();
+    }
 
     componentWillReceiveProps() {
-        this._initQuotes();
-    },
+        this.load();
+    }
 
-    onQuotesUpdate(quotes) {
-        this.setState({quotes: quotes}, () => {
-            OnReadyActions.updateStatus(true);
-            this.setReadyToRender();
-        });
-    },
+    renderLoader() {
+        return <div>Loader</div>;
+    }
+
+    render() {
+        if( this.state.render ) 
+            return this.renderComponent();
+        else
+            return this.renderLoader();
+    }
+}
+
+
+class YahooQuotes extends React.Component {
+    constructor( props ) {
+        super( props );
+    }
 
     onRemoveQuote(symbol) {
         YahooQuoteActions.removeQuoteSymbols([symbol]);
-    },
+    }
 
     onRefreshAllQuotes() {
-        OnReadyActions.updateStatus(false);
         YahooQuoteActions.refreshQuotes();
-    },
+    }
 
     onRefreshQuote(symbol) {
-        OnReadyActions.updateStatus(false);
         YahooQuoteActions.refreshQuote(symbol);
-    },
+    }
 
-    handleKeyDown: function(e){
+    handleKeyDown(e){
         if(e.type === "keydown" && e.keyCode === 13) {
             e.preventDefault();
             var input = e.target.value.replace(/[\[\]{},;]/g, "");
             if(input && input.length > 0) {
                 YahooQuoteActions.addQuoteSymbols([input.toUpperCase()]);
-                OnReadyActions.updateStatus(false);
             }
             e.target.value = "";
         }
-    },
+    }
 
-    renderQuotes() {
-        var symbols = this.state.quotes.keySeq().toArray();
+    render() {
+        var symbols = this.props.quotes.keySeq().toArray();
         return (
             <div>
                 <div className="col-sm-12">
@@ -76,7 +119,7 @@ var Page1 = React.createClass({
                     <button className="btn btn-primary btn-xs" onClick={this.onRefreshAllQuotes}>Refresh all quotes</button>
                     <hr/>
                 </div>
-                {symbols.map(s => <YahooQuote key={s} quote={this.state.quotes.get(s)} onRemove={this.onRemoveQuote} onRefresh={this.onRefreshQuote} />)}
+                {symbols.map(s => <YahooQuote key={s} quote={this.props.quotes.get(s)} onRemove={this.onRemoveQuote} onRefresh={this.onRefreshQuote} />)}
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                     <div className="quote thumbnail">
                         <input className="new-quote-input" type="text" placeholder="type a quote (i.e. 'ge'), press enter" onKeyDown={this.handleKeyDown} />
@@ -84,11 +127,24 @@ var Page1 = React.createClass({
                 </div>
             </div>
         );
-    },
-
-    render() {
-        return this.renderOnReady( this.renderQuotes );
     }
-});
+}
+
+
+
+class Page1 extends FluxAsyncComponent {
+    constructor( props ) {
+        super( props, { quotes: YahooQuoteStore } );
+    }
+
+    load() {
+        this.resolve( YahooQuoteActions.refreshQuotes, YahooQuoteStore, 'quotes' );
+    }
+
+
+    renderComponent() {
+        return <YahooQuotes quotes={this.state.quotes}/>;
+    }
+}
 
 module.exports = Page1;
