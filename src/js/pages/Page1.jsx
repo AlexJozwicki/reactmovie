@@ -5,35 +5,26 @@ var YahooQuoteStore = require("../stores/YahooQuoteStore");
 var YahooQuoteActions = require("../stores/YahooQuoteActions");
 var YahooQuote = require("./components/YahooQuote");
 var PageLoader = require("./PageLoader");
-var OnReadyActions = require("../utils/OnReady").OnReadyActions;
-var OnReadyMixin = require("../utils/OnReady").OnReadyMixin;
 
-var QuotesLoader = <PageLoader message="Retrieving quotes..." />;
-/*
-class Reflux extends React.Component {
-    constructor( props ) {
-        super( props );
-        this.subscriptions = [];
-    }
 
-    listenTo( store, callback ) {
-        this.subscriptions.push( store.listen( callback ) );
-    }
-
-    componentWillUnmount() {
-        this.subscriptions.forEach( ( sub ) => sub() );
-    }
-}*/
 
 class FluxComponent extends React.Component {
     constructor( props, stores ) {
         super( props );
         this.state = {};
+        this.stores = stores;
+        this.subscriptions = [];
+    }
 
-        for( var key in stores ) {
+    componentDidMount() {
+        for( var key in this.stores ) {
             this.state[key] = {};
-            stores[key].listen( ( value ) => this.setState( { [key]: value } ) );
+            this.subscriptions.push( this.stores[key].listen( ( value ) => this.setState( { [key]: value } ) ) );
         }
+    }
+
+    componentWillMount() {
+        this.subscriptions.forEach( ( unsubscribe ) => unsubscribe() );
     }
 }
 
@@ -62,6 +53,7 @@ class FluxAsyncComponent extends FluxComponent {
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this.load();
     }
 
@@ -70,12 +62,12 @@ class FluxAsyncComponent extends FluxComponent {
     }
 
     renderLoader() {
-        return <div>Loader</div>;
+        return <PageLoader message="Retrieving quotes..." />;
     }
 
-    render() {
+    render( component ) {
         if( this.state.render ) 
-            return this.renderComponent();
+            return this.renderAsync();
         else
             return this.renderLoader();
     }
@@ -141,8 +133,7 @@ class Page1 extends FluxAsyncComponent {
         this.resolve( YahooQuoteActions.refreshQuotes, YahooQuoteStore, 'quotes' );
     }
 
-
-    renderComponent() {
+    renderAsync() {
         return <YahooQuotes quotes={this.state.quotes}/>;
     }
 }
