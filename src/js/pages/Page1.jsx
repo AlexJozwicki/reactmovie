@@ -1,5 +1,4 @@
 var React = require("react/addons");
-var Immutable = require("immutable");
 var Reflux = require("reflux");
 var YahooQuoteStore = require("../stores/YahooQuoteStore");
 var YahooQuoteActions = require("../stores/YahooQuoteActions");
@@ -14,13 +13,11 @@ var Page1 = React.createClass({
 
     mixins: [
         OnReadyMixin(QuotesLoader, true),
-        Reflux.listenTo(YahooQuoteStore, "onQuotesUpdate"),
-        React.addons.PureRenderMixin
+        Reflux.listenTo(YahooQuoteStore, "onQuotesUpdate")
     ],
 
     getInitialState() {
-        return ({ quotes: {} });
-        //return ({});
+        return ({});
     },
 
     _initQuotes() {
@@ -44,6 +41,20 @@ var Page1 = React.createClass({
         });
     },
 
+    onRemoveQuote(symbol) {
+        YahooQuoteActions.removeQuoteSymbols([symbol]);
+    },
+
+    onRefreshAllQuotes() {
+        OnReadyActions.updateStatus(false);
+        YahooQuoteActions.refreshQuotes();
+    },
+
+    onRefreshQuote(symbol) {
+        OnReadyActions.updateStatus(false);
+        YahooQuoteActions.refreshQuote(symbol);
+    },
+
     handleKeyDown: function(e){
         if(e.type === "keydown" && e.keyCode === 13) {
             e.preventDefault();
@@ -60,8 +71,12 @@ var Page1 = React.createClass({
         var symbols = this.state.quotes.keySeq().toArray();
         return (
             <div>
-                <div className="col-sm-12">{YahooQuoteStore.lastUpdateAt.fromNow()}</div>
-                {symbols.map(s => <YahooQuote key={s} quote={this.state.quotes.get(s)} />)}
+                <div className="col-sm-12">
+                    <p>{YahooQuoteStore.lastUpdateAt.fromNow()}</p>
+                    <button className="btn btn-primary btn-xs" onClick={this.onRefreshAllQuotes}>Refresh all quotes</button>
+                    <hr/>
+                </div>
+                {symbols.map(s => <YahooQuote key={s} quote={this.state.quotes.get(s)} onRemove={this.onRemoveQuote} onRefresh={this.onRefreshQuote} />)}
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                     <div className="quote thumbnail">
                         <input className="new-quote-input" type="text" placeholder="type a quote (i.e. 'ge'), press enter" onKeyDown={this.handleKeyDown} />

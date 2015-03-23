@@ -8,19 +8,20 @@ var isObject = require("../utils/Utils").js.isObject;
 
 const YahooDateTimePattern = "YYYY-MM-DD[T]HH:mm:ssZ";
 const aLongTimeAgo = "2000-01-01T00:00:00Z";
-const defaultQuotes = { // default quotes
+
+const defaultQuotes = Immutable.Map({
     YHOO: {},
     AAPL: {},
     GOOG: {},
     MSFT: {}
-};
+});
 
 var YahooQuoteStore = Reflux.createStore({
 
     listenables: YahooQuoteActions,
 
     init() {
-        this.quotes = Immutable.Map(defaultQuotes);
+        this.quotes = defaultQuotes;
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
     },
 
@@ -33,6 +34,10 @@ var YahooQuoteStore = Reflux.createStore({
             this.lastUpdateAt = Moment();
             this.trigger(this.quotes);
         }
+    },
+
+    onRefreshQuote(symbol) {
+        YahooQuoteActions.getQuotes([symbol]);
     },
 
     onGetQuotesCompleted(apiResponse) {
@@ -82,7 +87,7 @@ var YahooQuoteStore = Reflux.createStore({
                 }
             });
         });
-        YahooQuoteActions.refreshQuotes();
+        YahooQuoteActions.getQuotes(symbols);
     },
 
     onRemoveQuoteSymbols(symbols) {

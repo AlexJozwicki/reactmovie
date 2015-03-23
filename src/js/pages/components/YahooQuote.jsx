@@ -1,13 +1,10 @@
 var React = require("react/addons");
-var YahooQuoteActions = require("../../stores/YahooQuoteActions");
 
 var YahooQuote = React.createClass({
 
+    // PureRenderMixin allow to trigger the rendering only if there's a change in updated props
+    // Thanks to immutable collection in the YahooQuoteStore we can accomplish safe equality checks
     mixins:[React.addons.PureRenderMixin],
-
-    onRemoveQuote(symbol) {
-        YahooQuoteActions.removeQuoteSymbols([symbol]);
-    },
 
     renderQuoteDetails(quote) {
         if(quote.Name) {
@@ -25,12 +22,12 @@ var YahooQuote = React.createClass({
     },
 
     render() {
-        console.log("render", this.props.quote.symbol);
         return (
             <div key={this.props.quote.symbol} className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                 <div className="quote thumbnail">
                     {this.renderQuoteDetails(this.props.quote)}
-                    <button type="button" onClick={this.onRemoveQuote.bind(null, this.props.quote.symbol)} className="btn btn-remove btn-warning btn-xs">Remove</button>
+                    <button type="button" onClick={this.props.onRemove.bind(null, this.props.quote.symbol)} className="btn btn-remove btn-warning btn-xs">Remove</button>
+                    <button type="button" onClick={this.props.onRefresh.bind(null, this.props.quote.symbol)} className="btn btn-refresh btn-primary btn-xs">Refresh</button>
                 </div>
             </div>
         );
