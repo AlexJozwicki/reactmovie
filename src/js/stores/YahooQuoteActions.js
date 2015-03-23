@@ -1,5 +1,5 @@
 var Reflux = require("reflux");
-var QuoteApi = require("../api").YahooApi.QuoteApi;
+var QuoteApi = require("../api/YahooApi").QuoteApi;
 
 var YahooQuoteActions = {
 

@@ -1,6 +1,7 @@
 var YahooConfig = require("AppConfig").Yahoo;
-var Resource = require("./Resource").Resource;
-var { Uri, Utils} = require("../utils/index");
+var Resource = require("./http/Resource").Resource;
+var Uri = require("./http/Uri");
+var { Utils} = require("../utils/index");
 
 // Yahoo query params for Quotes :
 // q= select * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")

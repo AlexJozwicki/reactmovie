@@ -85,7 +85,7 @@ Utils.validate =
         Validator.isURL(value)
 
     match: Utils.js.curry (pattern, modifier, value) ->
-        Validator.match(value, pattern, modifiers)
+        Validator.match(value, pattern, modifier)
 
     ascii: (value) ->
         Validator.isAscii(value)

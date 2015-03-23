@@ -1,5 +1,5 @@
 var _ = require("lodash");
-var HttpFactory = require("../utils/HttpFactory");
+var HttpFactory = require("./HttpFactory");
 
 const Interceptors = {
     defaultInterceptor      : {

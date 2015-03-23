@@ -1,5 +1,5 @@
 var React = require("react/addons");
-var { InfodataApi } = require("../api");
+var InfodataApi = require("../api/InfoDataApi");
 
 var Page3 = React.createClass({
 
