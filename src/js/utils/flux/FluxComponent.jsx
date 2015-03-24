@@ -42,10 +42,11 @@ class FluxComponent extends React.Component {
         }
     }
 
+
     /**
      * Unregister from the stores 
      */
-    componentWillMount() {
+    componentWillUnmount() {
         this.subscriptions.forEach( ( unsubscribe ) => unsubscribe() );
     }
 }
