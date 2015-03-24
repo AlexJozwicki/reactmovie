@@ -1,9 +1,9 @@
 var React = require("react/addons");
 
-var PageLoader = React.createClass({
-    getDefaultProps() {
-        return { message: "loading page..." };
-    },
+class PageLoader extends  React.Component {
+    constructor( props ) {
+        super( props );
+    }
 
     render(){
         return (
@@ -14,6 +14,8 @@ var PageLoader = React.createClass({
             </div>
         );
     }
-});
+};
+
+PageLoader.defaultProps = { message: "loading page..." };
 
 module.exports = PageLoader;

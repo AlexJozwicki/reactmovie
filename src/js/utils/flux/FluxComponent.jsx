@@ -4,7 +4,7 @@ var React   = require( 'react/addons' );
 
 /**
  * A component that is wired on Fluo or Reflux stores.
- * 
+ *
  */
 class FluxComponent extends React.Component {
     constructor( props, listenables ) {
@@ -27,7 +27,7 @@ class FluxComponent extends React.Component {
      */
     _storesConnected() {
         var res = true;
-        for( var key in this.stores ) {
+        for( var key in this.listenables ) {
             res = res && this.state[ key ];
         }
         return res;
@@ -52,7 +52,7 @@ class FluxComponent extends React.Component {
 
 
     /**
-     * Unregister from the stores 
+     * Unregister from the stores
      */
     componentWillUnmount() {
         this.subscriptions.forEach( ( unsubscribe ) => unsubscribe() );
