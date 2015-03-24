@@ -7,5 +7,4 @@ module.exports = {
     Uri               : require( "./Uri" ),
     Utils             : require( "./Utils" ),
     invariant         : require( "./invariant" ),
-    RestError         : require( "./RestError" )
 };

@@ -16,12 +16,16 @@ const defaultQuotes = Immutable.Map({
 });
 
 var YahooQuoteStore = Reflux.createStore({
-
-    listenables: YahooQuoteActions,
-
     init() {
         this.quotes = defaultQuotes;
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
+
+        this.listenTo( YahooQuoteActions.refreshQuotes, this.refreshQuotes );
+        this.listenTo( YahooQuoteActions.refreshQuote, this.refreshQuote );
+        this.listenTo( YahooQuoteActions.getQuotes.completed, this.getQuotesCompleted );
+        this.listenTo( YahooQuoteActions.getQuotes.failed, this.getQuotesFailed );
+        this.listenTo( YahooQuoteActions.addQuoteSymbols, this.addQuoteSymbols );
+        this.listenTo( YahooQuoteActions.removeQuoteSymbols, this.removeQuoteSymbols );
     },
 
     /**
@@ -32,7 +36,7 @@ var YahooQuoteStore = Reflux.createStore({
     },
 
 
-    onRefreshQuotes() {
+    refreshQuotes() {
         var currentQuotes = this.quotes;
         this.quotes = currentQuotes.clear();
         this.trigger( this.value() );
@@ -46,11 +50,11 @@ var YahooQuoteStore = Reflux.createStore({
         }
     },
 
-    onRefreshQuote(symbol) {
+    refreshQuote(symbol) {
         YahooQuoteActions.getQuotes([symbol]);
     },
 
-    onGetQuotesCompleted(apiResponse) {
+    getQuotesCompleted(apiResponse) {
         /*
         * The object returned by Yahoo API has this structure :
         *
@@ -84,11 +88,11 @@ var YahooQuoteStore = Reflux.createStore({
         }
     },
 
-    onGetQuotesFailed(someError) {
+    getQuotesFailed(someError) {
         console.log("something went wrong with quotes api. Error:", someError);
     },
 
-    onAddQuoteSymbols(symbols) {
+    addQuoteSymbols(symbols) {
         this.quotes = this.quotes.withMutations( (currentQuotes) => {
             symbols.forEach((symbol) => {
                 if(!currentQuotes.has(symbol)) {
@@ -99,7 +103,7 @@ var YahooQuoteStore = Reflux.createStore({
         YahooQuoteActions.getQuotes(symbols);
     },
 
-    onRemoveQuoteSymbols(symbols) {
+    removeQuoteSymbols(symbols) {
         this.quotes = this.quotes.withMutations( (currentQuotes) => {
             symbols.forEach((symbol) => {
                 currentQuotes.delete(symbol);
