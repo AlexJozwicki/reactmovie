@@ -1,24 +1,12 @@
 var React = require("react/addons");
 
-var SelectLinkState = React.createClass({
-    render: function() {
-        if (this.props.valueLink) {
-            return (
-                <select {...this.props} value={this.props.valueLink.value} valueLink={null} onChange={this.handleChange}>
-                    {this.props.children}
-                </select>
-            );
-        } else {
+class SelectLinkState extends React.Component {
 
-            return (
-                <select {...this.props} onChange={this.handleChange}>
-                    {this.props.children}
-                </select>
-            );
-        }
-    },
+    constructor( props ) {
+        super( props );
+    }
 
-    handleChange: function(e) {
+    handleChange(e) {
         var selectedValue;
         if (this.props.multiple) {
             // We have to iterate the `options` elements
@@ -43,6 +31,23 @@ var SelectLinkState = React.createClass({
         if(this.props.onChange) { this.props.onChange(e); }
 
     }
-});
+
+    render() {
+        if (this.props.valueLink) {
+            return (
+                <select {...this.props} value={this.props.valueLink.value} valueLink={null} onChange={this.handleChange}>
+                    {this.props.children}
+                </select>
+            );
+        } else {
+
+            return (
+                <select {...this.props} onChange={this.handleChange}>
+                    {this.props.children}
+                </select>
+            );
+        }
+    }
+};
 
 module.exports = SelectLinkState;

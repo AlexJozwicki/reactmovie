@@ -6,30 +6,19 @@ var FormValidation = require("../utils/FormValidation");
 var Utils = require("../utils/Utils");
 var Validate = Utils.validate;
 
-var Page2 = React.createClass({
-
-    statics: {
-        languages: Immutable.Map({de: "German", en: "English", fr: "French"}),
-        gender: Immutable.Map({m: "Male", f: "Female"}),
-        movies: Immutable.Set.of(["Saturday night fever", "Fight Club", "Wayne's World", "Ghost", "The Fifth Element"]),
-        defaultContact: new Contact("", "", "", ""),
-        formValidationRules: {
-            firstName: Validate.notEmpty,
-            lastName: Validate.notEmpty
-        }
-    },
-
-    getInitialState() {
-        return ({
+class Page2 extends React.Component {
+    constructor(props) {
+        super( props );
+        this.state = {
             contact: Page2.defaultContact,
             formState: Page2.formValidationRules,
             formValidation: new FormValidation(Page2.formValidationRules)
-        });
-    },
+        };
+    }
 
     validateField(path, value) {
         this.state.formValidation.validate(path, value);
-    },
+    }
 
     linkState(path) {
         return {
@@ -39,7 +28,7 @@ var Page2 = React.createClass({
                 this.setState({contact: Utils.updateIn(this.state.contact, path, value)});
             }
         };
-    },
+    }
 
     radioLinkState(path, value) {
         return {
@@ -50,7 +39,7 @@ var Page2 = React.createClass({
                 }
             }
         };
-    },
+    }
 
     render() {
 
@@ -103,6 +92,15 @@ var Page2 = React.createClass({
             </div>
         );
     }
-});
+};
+
+Page2.languages = Immutable.Map({de: "German", en: "English", fr: "French"});
+Page2.gender = Immutable.Map({m: "Male", f: "Female"});
+Page2.movies = Immutable.Set.of(["Saturday night fever", "Fight Club", "Wayne's World", "Ghost", "The Fifth Element"]);
+Page2.defaultContact = new Contact("", "", "", "");
+Page2.formValidationRules = {
+    firstName: Validate.notEmpty,
+    lastName: Validate.notEmpty
+};
 
 module.exports = Page2;
