@@ -1,3 +1,4 @@
+// https://github.com/github/fetch
 require( 'whatwg-fetch' );
 
 var React 	= require('react/addons');
@@ -6,6 +7,9 @@ var Home 	= require('./home');
 var { Page1, Page2, Page3 } = require( "./pages" );
 
 
+/**
+ * The routes of your application
+ */
 const routes = (
     <Router.Route path="/" handler={Home}>
         <Router.DefaultRoute handler={Page1} />
@@ -16,6 +20,11 @@ const routes = (
     </Router.Route>
 );
 
+/**
+ * Render your React application into the DOM.
+ * The correct way is to always render into a div and not directly the body, as third party scripts
+ * can add scripts inside the body.
+ */
 var HomeApp = Router.run( routes, function (Handler) {
     React.render(<Handler/>, document.getElementById('app-container'));
 });
