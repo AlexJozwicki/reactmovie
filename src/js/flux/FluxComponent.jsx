@@ -1,4 +1,5 @@
-var React = require( 'react/addons' );
+var _       = require( 'lodash' );
+var React   = require( 'react/addons' );
 
 
 /**
@@ -30,8 +31,9 @@ class FluxComponent extends React.Component {
      */
     componentDidMount() {
         for( var key in this.stores ) {
-            this.state[key] = void 0;
-            this.subscriptions.push( this.stores[key].listen( ( value ) => this.setState( { [key]: value } ) ) );
+            let store = this.stores[key];
+            this.state[key] = _.isFunction( store.value ) ? store.value() : void 0;
+            this.subscriptions.push( store.listen( ( value ) => this.setState( { [key]: value } ) ) );
         }
     }
 

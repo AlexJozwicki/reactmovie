@@ -25,6 +25,14 @@ var YahooQuoteStore = Reflux.createStore({
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
     },
 
+    /**
+     * This should return the same value as every trigger
+     */
+    value() {
+        return this.quotes;
+    },
+
+
     onRefreshQuotes() {
         var quotesSymbols = this.quotes.keySeq().toArray();
         if(quotesSymbols.length > 0) {

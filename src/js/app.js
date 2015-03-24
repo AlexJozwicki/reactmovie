@@ -1,3 +1,5 @@
+require( 'whatwg-fetch' );
+
 var React = require('react/addons'),
     Router = require('react-router'),
     HomeRoutes = require('./home');

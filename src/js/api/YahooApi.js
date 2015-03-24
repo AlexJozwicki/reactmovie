@@ -1,7 +1,5 @@
 var YahooConfig = require("AppConfig").Yahoo;
-var Resource = require("./Resource").Resource;
 var { Uri, Utils} = require("../utils/index");
-require( 'whatwg-fetch' );
 
 
 // Yahoo query params for Quotes :
@@ -9,7 +7,6 @@ require( 'whatwg-fetch' );
 // env= http://datatables.org/alltables.env
 // format= json
 
-var resource = new Resource();
 
 var buildYahooParams = (query, env, format) => {
     return {
@@ -20,7 +17,6 @@ var buildYahooParams = (query, env, format) => {
 };
 
 var YahooApi = {
-
     QuoteApi: {
         getQuotes: (quotes) => {
 
