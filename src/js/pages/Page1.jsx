@@ -3,14 +3,14 @@ var React               = require('react/addons');
 var YahooQuoteStore     = require('../stores/YahooQuoteStore');
 var YahooQuoteActions   = require('../stores/YahooQuoteActions');
 var YahooQuote          = require('../components/YahooQuote');
-var PageLoader          = require('./PageLoader');
+var PageLoader          = require('../components/PageLoader');
 
-var { FluxComponent, 
-      FluxAsyncComponent} = require( '../utils/flux' );
+var { FluxComponent,
+      FluxAsyncComponent } = require( '../utils/flux' );
 
 
 /**
- * Pure rendering
+ * Quotes rendering
  */
 class YahooQuotes extends React.Component {
     constructor( props ) {
@@ -63,7 +63,6 @@ class YahooQuotes extends React.Component {
 YahooQuotes.propTypes = {
     quotes: React.PropTypes.object.isRequired
 };
-
 
 
 /**

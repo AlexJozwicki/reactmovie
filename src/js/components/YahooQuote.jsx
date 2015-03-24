@@ -1,10 +1,16 @@
 var React = require("react/addons");
+var Immutable = require("immutable");
 
-var YahooQuote = React.createClass({
+class YahooQuote extends React.Component {
 
-    // PureRenderMixin allow to trigger the rendering only if there's a change in updated props
-    // Thanks to immutable collection in the YahooQuoteStore we can accomplish safe equality checks
-    //mixins:[React.addons.PureRenderMixin],
+    constructor( props ) {
+        super( props );
+    }
+
+    // Pure Rendering
+    shouldComponentUpdate(nextProps, nextState) {
+        return !!nextProps && !Immutable.is(this.props.quote, nextProps.quote);
+    }
 
     renderQuoteDetails(quote) {
         if(quote.Name) {
@@ -19,7 +25,7 @@ var YahooQuote = React.createClass({
         } else {
             return <span key="notfound">Quote with symbol <b>[{quote.symbol}]</b> was not found</span>;
         }
-    },
+    }
 
     render() {
         return (
@@ -32,6 +38,10 @@ var YahooQuote = React.createClass({
             </div>
         );
     }
-});
+};
+
+YahooQuote.propTypes = {
+    quote: React.PropTypes.object.isRequired
+};
 
 module.exports = YahooQuote;
