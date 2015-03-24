@@ -18,6 +18,7 @@ const defaultQuotes = Immutable.Map({
 var YahooQuoteStore = Reflux.createStore({
     init() {
         this.quotes = defaultQuotes;
+        this.isReady = false;
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
 
         this.listenTo( YahooQuoteActions.refreshQuotes, this.refreshQuotes );
@@ -32,16 +33,15 @@ var YahooQuoteStore = Reflux.createStore({
      * This should return the same value as every trigger
      */
     value() {
-        return this.quotes;
+        if(this.isReady) {
+            return this.quotes;
+        } else {
+            return void 0;
+        }
     },
 
-
     refreshQuotes() {
-        var currentQuotes = this.quotes;
-        this.quotes = currentQuotes.clear();
-        this.trigger( this.value() );
-
-        var quotesSymbols = currentQuotes.keySeq().toArray();
+        var quotesSymbols = this.quotes.keySeq().toArray();
         if(quotesSymbols.length > 0) {
             YahooQuoteActions.getQuotes(quotesSymbols);
         } else {
@@ -84,6 +84,7 @@ var YahooQuoteStore = Reflux.createStore({
             }
 
             this.lastUpdateAt = Moment(apiResponse.query.created, YahooDateTimePattern);
+            this.isReady = true;
             this.trigger(this.value());
         }
     },

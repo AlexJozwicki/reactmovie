@@ -1,4 +1,5 @@
 // https://github.com/github/fetch
+// require here because it's polyfill...
 require( 'whatwg-fetch' );
 
 var React 	= require('react/addons');

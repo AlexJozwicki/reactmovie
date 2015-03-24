@@ -4,7 +4,7 @@ var YahooQuote = React.createClass({
 
     // PureRenderMixin allow to trigger the rendering only if there's a change in updated props
     // Thanks to immutable collection in the YahooQuoteStore we can accomplish safe equality checks
-    mixins:[React.addons.PureRenderMixin],
+    //mixins:[React.addons.PureRenderMixin],
 
     renderQuoteDetails(quote) {
         if(quote.Name) {

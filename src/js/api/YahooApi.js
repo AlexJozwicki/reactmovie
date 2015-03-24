@@ -1,6 +1,6 @@
 var YahooConfig = require("AppConfig").Yahoo;
 
-var Uri = require("./http/Uri");
+var Uri = require("./Uri");
 var { Utils} = require("../utils/index");
 
 

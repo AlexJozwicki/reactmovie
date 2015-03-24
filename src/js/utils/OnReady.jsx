@@ -1,6 +1,5 @@
 var React = require("react/addons"),
-    Reflux = require("reflux"),
-    DefaultLoadingContent = require("./../components/DefaultLoader");
+    Reflux = require("reflux");
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 

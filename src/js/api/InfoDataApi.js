@@ -1,5 +1,5 @@
 var InfodataConfig = require("AppConfig").Infodata;
-var Uri = require("./http/Uri");
+var Uri = require("./Uri");
 
 
 var InfodataApi = {
