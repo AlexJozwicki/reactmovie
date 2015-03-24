@@ -7,15 +7,16 @@ var React   = require( 'react/addons' );
  * 
  */
 class FluxComponent extends React.Component {
-    constructor( props, stores ) {
+    constructor( props, listenables ) {
         super( props );
         this.state = {};
-        this.stores = stores;
+        this.listenables = listenables;
         this.subscriptions = [];
 
-        for( var key in this.stores ) {
-            let store = this.stores[key];
-            this.state[key] = _.isFunction( store.value ) ? store.value() : void 0;
+        for( var key in this.listenables ) {
+            let listenable = this.listenables[key];
+            if( !_.isFunction( this[key] ) )
+                this.state[key] = _.isFunction( listenable.value ) ? listenable.value() : void 0;
         }
     }
 
@@ -36,9 +37,16 @@ class FluxComponent extends React.Component {
      * Listen to all stores
      */
     componentDidMount() {
-        for( var key in this.stores ) {
-            let store = this.stores[key];
-            this.subscriptions.push( store.listen( ( value ) => this.setState( { [key]: value } ) ) );
+        var thisComponent = this;
+        for( var key in this.listenables ) {
+            let listenable = this.listenables[key];
+            if( _.isFunction( this[key] ) ) {
+                this.subscriptions.push( listenable.listen( function() {
+                    thisComponent[key]( ...arguments )
+                } ) );
+            }
+            else
+                this.subscriptions.push( listenable.listen( ( value ) => this.setState( { [key]: value } ) ) );
         }
     }
 
