@@ -15,61 +15,24 @@ var OnReadyStore = Reflux.createStore({
         this.isReady = false;
     },
 
+    value() {
+        return this.isReady;
+    },
+
     onUpdateStatus(isReady) {
         this.isReady = isReady;
-        this.trigger(this.isReady);
+
+        if( isReady ) {
+            setTimeout( () => this.trigger( this.value() ), 500 );
+        }
+        else {
+            this.trigger(this.isReady);
+        }
     }
 });
 
-var OnReadyMixin = function(loadingComponent, doAnimation) {
-
-    if(!loadingComponent) {
-        loadingComponent = DefaultLoadingContent;
-    }
-
-    return {
-
-        getInitialState: function(){
-            return {isReady: false};
-        },
-
-        setReadyToRender: function(){
-            this.setState({isReady: true});
-            OnReadyActions.updateStatus(true);
-        },
-
-        setNotReadyToRender: function(){
-            this.setState({isReady: false});
-            OnReadyActions.updateStatus(false);
-        },
-
-        renderOnReady: function (renderContent) {
-
-            var key = "onReady-loader";
-            var content = loadingComponent;
-            if(this.state.isReady) {
-                key = "onReader-content";
-                content = renderContent.call( this );
-            }
-
-            if(doAnimation) {
-                return (
-                    <ReactCSSTransitionGroup transitionName="on-ready" component="div" className="transition-wrapper">
-                        <div className="transition-element" key={key}>{content}</div>
-                    </ReactCSSTransitionGroup>
-                );
-            } else {
-                return content;
-            }
-
-
-        }
-    };
-
-};
 
 module.exports = {
     OnReadyActions: OnReadyActions,
-    OnReadyMixin  : OnReadyMixin,
     OnReadyStore  : OnReadyStore
 };

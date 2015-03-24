@@ -6,7 +6,7 @@ var YahooQuote          = require('./components/YahooQuote');
 var PageLoader          = require('./PageLoader');
 
 var { FluxComponent, 
-      FluxAsyncComponent} = require( '../flux' );
+      FluxAsyncComponent} = require( '../utils/flux' );
 
 
 /**

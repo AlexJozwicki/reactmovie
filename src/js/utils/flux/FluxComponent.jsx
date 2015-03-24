@@ -3,7 +3,8 @@ var React   = require( 'react/addons' );
 
 
 /**
- * A component that is wired on Reflux stores.
+ * A component that is wired on Fluo or Reflux stores.
+ * 
  */
 class FluxComponent extends React.Component {
     constructor( props, stores ) {
@@ -11,6 +12,11 @@ class FluxComponent extends React.Component {
         this.state = {};
         this.stores = stores;
         this.subscriptions = [];
+
+        for( var key in this.stores ) {
+            let store = this.stores[key];
+            this.state[key] = _.isFunction( store.value ) ? store.value() : void 0;
+        }
     }
 
     /**
@@ -32,7 +38,6 @@ class FluxComponent extends React.Component {
     componentDidMount() {
         for( var key in this.stores ) {
             let store = this.stores[key];
-            this.state[key] = _.isFunction( store.value ) ? store.value() : void 0;
             this.subscriptions.push( store.listen( ( value ) => this.setState( { [key]: value } ) ) );
         }
     }

@@ -1,9 +1,19 @@
-var React = require("react/addons");
-var Router = require("react-router");
-var Reflux = require("reflux");
-var OnReadyStore = require("./utils/OnReady").OnReadyStore;
-var OnReadyMixin = require("./utils/OnReady").OnReadyMixin;
-var { Page1, Page2, Page3 } = require( "./pages" );
+var React           = require( 'react/addons' );
+var Router          = require( 'react-router' );
+var OnReadyStore    = require( './utils/OnReady' ).OnReadyStore;
+var OnReadyActions  = require( './utils/OnReady' ).OnReadyActions;
+var classnames      = require( 'classnames' );
+
+var { FluxComponent } = require( './utils/flux' );
+
+function injectRouter( cl ) {
+    cl.contextTypes = {
+        router: React.PropTypes.func.isRequired
+    };
+
+    return cl;
+}
+
 
 /**
  * Small loader
@@ -14,29 +24,14 @@ var HomeLoader = <div id="loading-home" className='container'>
                     </div>
                  </div>;
 
-var NavBar = React.createClass({
 
-    mixins: [Reflux.listenTo(OnReadyStore, "onUpdateStatus")],
-
-    getInitialState() {
-        return {
-            showSpinner: false
-        };
-    },
-
-    onUpdateStatus(isReady) {
-        if(isReady) {
-            setTimeout(function() {  // The spinner is displayed for at least 500ms
-                this.setState({showSpinner: false});
-            }.bind(this), 500);
-        } else {
-            this.setState({showSpinner: true});
-        }
-    },
+class NavBar extends FluxComponent {
+    constructor( props ) {
+        super( props, { isReady: OnReadyStore } );
+    }
 
     render() {
-
-        var spinnerClasses = React.addons.classSet({"fa fa-lg fa-spinner fa-spin": this.state.showSpinner});
+        var spinnerClasses = classnames({"fa fa-lg fa-spinner fa-spin": !this.state.isReady});
 
         return (
             <nav id='nav' className="navbar navbar-fixed-top" role="navigation">
@@ -47,17 +42,17 @@ var NavBar = React.createClass({
                         </a>
                     </li>
                     <li>
-                        <a href="#/page1" className="navbar-link main-ui-link">
+                        <a href={this.context.router.makeHref( 'page1' )} className="navbar-link main-ui-link">
                             Page1
                         </a>
                     </li>
                     <li>
-                        <a href="#/page2" className="navbar-link main-ui-link">
+                        <a href={this.context.router.makeHref( 'page2' )} className="navbar-link main-ui-link">
                             Page2
                         </a>
                     </li>
                     <li>
-                        <a href="#/page3" className="navbar-link main-ui-link">
+                        <a href={this.context.router.makeHref( 'page3' )} className="navbar-link main-ui-link">
                             Page3
                         </a>
                     </li>
@@ -75,57 +70,36 @@ var NavBar = React.createClass({
             </nav>
         );
     }
-});
+}
+injectRouter( NavBar );
+
+
 
 /**
  *
  * HOME PAGE
  *
  */
-var Home = React.createClass({
-
-    mixins: [
-        Router.Navigation,
-        Router.State,
-        OnReadyMixin(HomeLoader)
-    ],
-
-    getInitialState() {
-        return {};
-    },
+class Home extends React.Component {
+    constructor( props ) {
+        super( props )
+    }
 
     componentDidMount(){
-        this.setReadyToRender();
-    },
-
-    componentWillReceiveProps(){
-        this.setReadyToRender();
-    },
+        OnReadyActions.updateStatus( true )
+    }
 
     render(){
-        var renderContent = () => {
-            return (
-                <div ref="app" id="wrapper" >
-                    <NavBar/>
-                    <div id="side"></div>
-                    <div id="content" className="container">
-                        <Router.RouteHandler />
-                    </div>
+        return (
+            <div ref="app" id="wrapper" >
+                <NavBar/>
+                <div id="side"></div>
+                <div id="content" className="container">
+                    <Router.RouteHandler />
                 </div>
-            );
-        };
-        return this.renderOnReady(renderContent);
+            </div>
+        );
     }
-});
+}
 
-var routes = (
-    <Router.Route path="/" handler={Home}>
-        <Router.DefaultRoute handler={Page1} />
-        <Router.Route name="page1" path="/page1" addHandlerKey={true} handler={Page1}/>
-        <Router.Route name="page2" path="/page2" addHandlerKey={true} handler={Page2}/>
-        <Router.Route name="page3" path="/page3" addHandlerKey={true} handler={Page3}/>
-        <Router.NotFoundRoute handler={Page1}/>
-    </Router.Route>
-);
-
-module.exports = routes;
+module.exports = injectRouter( Home );

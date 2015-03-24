@@ -28,6 +28,8 @@ var YahooApi = {
             }
 
             var query = `select * from yahoo.finance.quotes where symbol in (${flattenQuotes})`;
+
+            // check https://github.com/github/fetch
             return fetch( new Uri( "{0}/v1/public/yql", YahooConfig.publicWebHost).query(buildYahooParams(query)) );
         }
     }
