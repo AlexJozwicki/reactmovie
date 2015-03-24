@@ -1,7 +1,6 @@
 var React = require("react/addons");
 var Immutable = require("immutable");
 var Contact = require("../models/Contact");
-var SelectLinkState = require("../components/SelectLinkState");
 var FormValidation = require("../utils/FormValidation");
 var Utils = require("../utils/Utils");
 var Validate = Utils.validate;
@@ -60,10 +59,10 @@ class Page2 extends React.Component {
                                 <input type="email" className="form-control" placeholder="Email" valueLink={this.linkState("email")} />
                             </div>
                             <div className="col-sm-6">
-                                <SelectLinkState className="form-control" valueLink={this.linkState("language")}>
+                                <select className="form-control" valueLink={this.linkState("language")}>
                                     <option value="">Your preferred language</option>
-                                    {Page2.languages.map((v, k) => <option value={k}>{v}</option>)}
-                                </SelectLinkState>
+                                    {Page2.languages.entrySeq().map( ([k,v]) => <option key={k} value={k}>{v}</option>)}
+                                </select>
                             </div>
                         </div>
                         <div className="form-group">
@@ -95,7 +94,6 @@ class Page2 extends React.Component {
 };
 
 Page2.languages = Immutable.Map({de: "German", en: "English", fr: "French"});
-Page2.gender = Immutable.Map({m: "Male", f: "Female"});
 Page2.movies = Immutable.Set.of(["Saturday night fever", "Fight Club", "Wayne's World", "Ghost", "The Fifth Element"]);
 Page2.defaultContact = new Contact("", "", "", "");
 Page2.formValidationRules = {
