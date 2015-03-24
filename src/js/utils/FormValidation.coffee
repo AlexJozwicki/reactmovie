@@ -1,8 +1,6 @@
 Utils = require "./Utils"
 
-FormManager = exports
-
-FormManager.FormValidation = class FormValidation
+FormValidation = class FormValidation
     constructor: (@_fields) ->
 
         @pristine = true
@@ -49,9 +47,11 @@ FormManager.FormValidation = class FormValidation
         if(@_fields[fieldName])
             if(Utils.js.isArray(@_fields[fieldName].validate))
                 isValid = true
-                for fct in @_fields[fieldName].validate
-                    isValid = isValid && fct(value)
+                for fn in @_fields[fieldName].validate
+                    isValid = isValid && fn(value)
                 @_fields[fieldName].isValid = isValid
             else
                 @_fields[fieldName].isValid = @_fields[fieldName].validate(value)
             @_updateFormStatus()
+
+module.exports = FormValidation
