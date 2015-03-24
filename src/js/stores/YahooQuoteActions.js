@@ -29,11 +29,11 @@ YahooQuoteActions.removeQuoteSymbols.shouldEmit = (symbols) => symbols && symbol
 // getQuotes action must apply the specified function (that return a promise) and listen for it resolve/reject
 //YahooQuoteActions.getQuotes.listenAndPromise( QuoteApi.getQuotes );
 
-
+// As we use now "fetch" for API request, if we want to get the json, we get another promise for that when calling .json()
 YahooQuoteActions.getQuotes.listen( function( symbols ) {
     QuoteApi.getQuotes( symbols ).then( ( response ) => response.json() )
                                  .then( this.completed )
                                  .catch( this.failed );
 });
- 
+
 module.exports = YahooQuoteActions;

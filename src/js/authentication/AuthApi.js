@@ -1,8 +1,8 @@
 class AuthApi {
-	getToken() {
-		// TODO
-		return '';
-	}
+    getToken() {
+        // TODO
+        return '';
+    }
 }
 
 module.exports = new AuthApi();

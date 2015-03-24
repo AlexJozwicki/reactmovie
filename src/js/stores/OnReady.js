@@ -1,7 +1,4 @@
-var React = require("react/addons"),
-    Reflux = require("reflux");
-
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var Reflux = require("reflux");
 
 var OnReadyActions = Reflux.createActions([
     "updateStatus"

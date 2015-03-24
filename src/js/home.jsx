@@ -1,7 +1,7 @@
 var React           = require( 'react/addons' );
 var Router          = require( 'react-router' );
-var OnReadyStore    = require( './utils/OnReady' ).OnReadyStore;
-var OnReadyActions  = require( './utils/OnReady' ).OnReadyActions;
+var OnReadyStore    = require( './stores/OnReady' ).OnReadyStore;
+var OnReadyActions  = require( './stores/OnReady' ).OnReadyActions;
 var classnames      = require( 'classnames' );
 
 var { FluxComponent } = require( './utils/flux' );
