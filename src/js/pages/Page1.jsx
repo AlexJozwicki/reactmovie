@@ -1,12 +1,12 @@
-var _ = require( 'lodash' );
-var React = require("react/addons");
-var Reflux = require("reflux");
-var YahooQuoteStore = require("../stores/YahooQuoteStore");
-var YahooQuoteActions = require("../stores/YahooQuoteActions");
-var YahooQuote = require("./components/YahooQuote");
-var PageLoader = require("./PageLoader");
+var _                   = require( 'lodash' );
+var React               = require('react/addons');
+var YahooQuoteStore     = require('../stores/YahooQuoteStore');
+var YahooQuoteActions   = require('../stores/YahooQuoteActions');
+var YahooQuote          = require('./components/YahooQuote');
+var PageLoader          = require('./PageLoader');
 
-var { FluxComponent, FluxAsyncComponent } = require( '../flux' );
+var { FluxComponent, 
+      FluxAsyncComponent} = require( '../flux' );
 
 
 /**
@@ -60,6 +60,11 @@ class YahooQuotes extends React.Component {
     }
 }
 
+YahooQuotes.propTypes = {
+    quotes: React.PropTypes.object.isRequired
+};
+
+
 
 /**
  * Loading of data
@@ -75,11 +80,6 @@ class Page1 extends FluxAsyncComponent {
 
     componentDidMount() {
         super.componentDidMount();
-        this.load();
-    }
-
-    componentWillReceiveProps() {
-        super.componentWillReceiveProps();
         this.load();
     }
 

@@ -13,6 +13,19 @@ class FluxComponent extends React.Component {
     }
 
     /**
+     * Checks whether every stores have returned a value
+     * @private
+     * @return {Boolean}
+     */
+    _storesConnected() {
+        var res = true;
+        for( var key in this.stores ) {
+            res = res && this.state[ key ];
+        }
+        return res;
+    }
+
+    /**
      * Listen to all stores
      */
     componentDidMount() {

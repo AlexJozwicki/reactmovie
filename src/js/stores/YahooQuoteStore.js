@@ -40,39 +40,40 @@ var YahooQuoteStore = Reflux.createStore({
         YahooQuoteActions.getQuotes([symbol]);
     },
 
-    onGetQuotesCompleted(apiResponse) {
+    onGetQuotesCompleted(response) {
+        response.json().then( ( apiResponse ) => {
+            /*
+            * The object returned by Yahoo API has this structure :
+            *
+            * - query:object
+            *   - count:number
+            *   - created:date
+            *   - lang:string
+            *   - results:object
+            *       - quote:array of quote or one quote object if only one
+            * */
 
-        /*
-        * The object returned by Yahoo API has this structure :
-        *
-        * - query:object
-        *   - count:number
-        *   - created:date
-        *   - lang:string
-        *   - results:object
-        *       - quote:array of quote or one quote object if only one
-        * */
+            if(apiResponse.query && apiResponse.query.count > 0 && apiResponse.query.results.quote) {
 
-        if(apiResponse.query && apiResponse.query.count > 0 && apiResponse.query.results.quote) {
+                var apiQuotes = apiResponse.query.results.quote;
 
-            var apiQuotes = apiResponse.query.results.quote;
+                if(isArray(apiQuotes)) {
+                    this.quotes = this.quotes.withMutations( (currentQuotes) => {
+                        apiQuotes.forEach((quoteObj) => {
+                            var quote = YahooQuote.fromObject(quoteObj);
+                            currentQuotes.set(quote.symbol, quote);
+                        });
+                    }).sortBy(q => q.symbol);
 
-            if(isArray(apiQuotes)) {
-                this.quotes = this.quotes.withMutations( (currentQuotes) => {
-                    apiQuotes.forEach((quoteObj) => {
-                        var quote = YahooQuote.fromObject(quoteObj);
-                        currentQuotes.set(quote.symbol, quote);
-                    });
-                }).sortBy(q => q.symbol);
+                } else if(isObject(apiQuotes)) {
+                    var quote = YahooQuote.fromObject(apiQuotes);
+                    this.quotes = this.quotes.set(quote.symbol, quote).sortBy(q => q.symbol);
+                }
 
-            } else if(isObject(apiQuotes)) {
-                var quote = YahooQuote.fromObject(apiQuotes);
-                this.quotes = this.quotes.set(quote.symbol, quote).sortBy(q => q.symbol);
+                this.lastUpdateAt = Moment(apiResponse.query.created, YahooDateTimePattern);
+                this.trigger(this.quotes);
             }
-
-            this.lastUpdateAt = Moment(apiResponse.query.created, YahooDateTimePattern);
-            this.trigger(this.quotes);
-        }
+        });
     },
 
     onGetQuotesFailed(someError) {

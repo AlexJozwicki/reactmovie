@@ -9,18 +9,6 @@ class FluxAsyncComponent extends FluxComponent {
         super( props, stores );
     }
 
-    /**
-     * Whether the components can be rendered; we check every value returned by the stores we listen to
-     * @private
-     * @return {Boolean}
-     */
-    _canBeRendered() {
-        var res = true;
-        for( var key in this.stores ) {
-            res = res && this.state[ key ];
-        }
-        return res;
-    }
 
     /**
      * Rendering a default loader. Can be overriden by the caller.
@@ -31,7 +19,7 @@ class FluxAsyncComponent extends FluxComponent {
     }
 
     render( component ) {
-        if( this._canBeRendered() ) 
+        if( this._storesConnected() ) 
             return this.renderAsync();
         else
             return this.renderLoader();

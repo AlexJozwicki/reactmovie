@@ -1,6 +1,8 @@
 var YahooConfig = require("AppConfig").Yahoo;
 var Resource = require("./Resource").Resource;
 var { Uri, Utils} = require("../utils/index");
+require( 'whatwg-fetch' );
+
 
 // Yahoo query params for Quotes :
 // q= select * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")
@@ -30,7 +32,7 @@ var YahooApi = {
             }
 
             var query = `select * from yahoo.finance.quotes where symbol in (${flattenQuotes})`;
-            return resource.get( new Uri( "{0}/v1/public/yql", YahooConfig.publicWebHost).query(buildYahooParams(query)) );
+            return fetch( new Uri( "{0}/v1/public/yql", YahooConfig.publicWebHost).query(buildYahooParams(query)) );
         }
     }
 };
