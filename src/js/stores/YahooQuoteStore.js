@@ -1,13 +1,12 @@
-var Reflux = require("reflux");
-var Immutable = require("immutable");
-var Moment = require("moment");
-var YahooQuoteActions = require("./YahooQuoteActions");
-var { YahooQuote } = require("../models");
-var isArray = require("../utils/Utils").js.isArray;
-var isObject = require("../utils/Utils").js.isObject;
+var _                   = require( 'lodash' );
+var Reflux              = require('reflux');
+var Immutable           = require('immutable');
+var Moment              = require('moment');
+var YahooQuoteActions   = require('./YahooQuoteActions');
+var { YahooQuote }      = require('../models');
 
 const YahooDateTimePattern = "YYYY-MM-DD[T]HH:mm:ssZ";
-const aLongTimeAgo = "2000-01-01T00:00:00Z";
+const aLongTimeAgo      = "2000-01-01T00:00:00Z";
 
 const defaultQuotes = Immutable.Map({
     YHOO: {},
@@ -17,31 +16,45 @@ const defaultQuotes = Immutable.Map({
 });
 
 var YahooQuoteStore = Reflux.createStore({
-
-    listenables: YahooQuoteActions,
-
     init() {
         this.quotes = defaultQuotes;
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
+
+        this.listenTo( YahooQuoteActions.refreshQuotes, this.refreshQuotes );
+        this.listenTo( YahooQuoteActions.refreshQuote, this.refreshQuote );
+        this.listenTo( YahooQuoteActions.getQuotes.completed, this.getQuotesCompleted );
+        this.listenTo( YahooQuoteActions.getQuotes.failed, this.getQuotesFailed );
+        this.listenTo( YahooQuoteActions.addQuoteSymbols, this.addQuoteSymbols );
+        this.listenTo( YahooQuoteActions.removeQuoteSymbols, this.removeQuoteSymbols );
     },
 
-    onRefreshQuotes() {
-        var quotesSymbols = this.quotes.keySeq().toArray();
+    /**
+     * This should return the same value as every trigger
+     */
+    value() {
+        return this.quotes;
+    },
+
+
+    refreshQuotes() {
+        var currentQuotes = this.quotes;
+        this.quotes = currentQuotes.clear();
+        this.trigger( this.value() );
+
+        var quotesSymbols = currentQuotes.keySeq().toArray();
         if(quotesSymbols.length > 0) {
             YahooQuoteActions.getQuotes(quotesSymbols);
         } else {
-            this.quotes = this.quotes.clear();
             this.lastUpdateAt = Moment();
-            this.trigger(this.quotes);
+            this.trigger( this.value() );
         }
     },
 
-    onRefreshQuote(symbol) {
+    refreshQuote(symbol) {
         YahooQuoteActions.getQuotes([symbol]);
     },
 
-    onGetQuotesCompleted(apiResponse) {
-
+    getQuotesCompleted(apiResponse) {
         /*
         * The object returned by Yahoo API has this structure :
         *
@@ -57,7 +70,7 @@ var YahooQuoteStore = Reflux.createStore({
 
             var apiQuotes = apiResponse.query.results.quote;
 
-            if(isArray(apiQuotes)) {
+            if(_.isArray(apiQuotes)) {
                 this.quotes = this.quotes.withMutations( (currentQuotes) => {
                     apiQuotes.forEach((quoteObj) => {
                         var quote = YahooQuote.fromObject(quoteObj);
@@ -65,21 +78,21 @@ var YahooQuoteStore = Reflux.createStore({
                     });
                 }).sortBy(q => q.symbol);
 
-            } else if(isObject(apiQuotes)) {
+            } else if(_.isObject(apiQuotes)) {
                 var quote = YahooQuote.fromObject(apiQuotes);
                 this.quotes = this.quotes.set(quote.symbol, quote).sortBy(q => q.symbol);
             }
 
             this.lastUpdateAt = Moment(apiResponse.query.created, YahooDateTimePattern);
-            this.trigger(this.quotes);
+            this.trigger(this.value());
         }
     },
 
-    onGetQuotesFailed(someError) {
+    getQuotesFailed(someError) {
         console.log("something went wrong with quotes api. Error:", someError);
     },
 
-    onAddQuoteSymbols(symbols) {
+    addQuoteSymbols(symbols) {
         this.quotes = this.quotes.withMutations( (currentQuotes) => {
             symbols.forEach((symbol) => {
                 if(!currentQuotes.has(symbol)) {
@@ -90,13 +103,13 @@ var YahooQuoteStore = Reflux.createStore({
         YahooQuoteActions.getQuotes(symbols);
     },
 
-    onRemoveQuoteSymbols(symbols) {
+    removeQuoteSymbols(symbols) {
         this.quotes = this.quotes.withMutations( (currentQuotes) => {
             symbols.forEach((symbol) => {
                 currentQuotes.delete(symbol);
             });
         });
-        this.trigger(this.quotes);
+        this.trigger(this.value());
     }
 
 });

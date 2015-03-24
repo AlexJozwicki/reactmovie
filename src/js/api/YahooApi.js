@@ -1,14 +1,14 @@
 var YahooConfig = require("AppConfig").Yahoo;
-var Resource = require("./http/Resource").Resource;
+
 var Uri = require("./http/Uri");
 var { Utils} = require("../utils/index");
+
 
 // Yahoo query params for Quotes :
 // q= select * from yahoo.finance.quotes where symbol in ("YHOO","AAPL","GOOG","MSFT")
 // env= http://datatables.org/alltables.env
 // format= json
 
-var resource = new Resource();
 
 var buildYahooParams = (query, env, format) => {
     return {
@@ -19,7 +19,6 @@ var buildYahooParams = (query, env, format) => {
 };
 
 var YahooApi = {
-
     QuoteApi: {
         getQuotes: (quotes) => {
 
@@ -31,7 +30,9 @@ var YahooApi = {
             }
 
             var query = `select * from yahoo.finance.quotes where symbol in (${flattenQuotes})`;
-            return resource.get( new Uri( "{0}/v1/public/yql", YahooConfig.publicWebHost).query(buildYahooParams(query)) );
+
+            // check https://github.com/github/fetch
+            return fetch( new Uri( "{0}/v1/public/yql", YahooConfig.publicWebHost).query(buildYahooParams(query)) );
         }
     }
 };

@@ -31,7 +31,9 @@ gulp.task('config', function(cb){
         {file:'moment'},
         {file:'reflux'},
         {file:'validator'},
-        {file:'immutable'}
+        {file:'immutable'},
+        {file:'classnames'},
+        {file:'whatwg-fetch'}
     ];
 
     cb();

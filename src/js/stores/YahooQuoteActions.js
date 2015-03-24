@@ -27,6 +27,13 @@ YahooQuoteActions.addQuoteSymbols.shouldEmit = (symbols) => symbols && symbols.l
 YahooQuoteActions.removeQuoteSymbols.shouldEmit = (symbols) => symbols && symbols.length > 0;
 
 // getQuotes action must apply the specified function (that return a promise) and listen for it resolve/reject
-YahooQuoteActions.getQuotes.listenAndPromise( QuoteApi.getQuotes );
+//YahooQuoteActions.getQuotes.listenAndPromise( QuoteApi.getQuotes );
 
+
+YahooQuoteActions.getQuotes.listen( function( symbols ) {
+    QuoteApi.getQuotes( symbols ).then( ( response ) => response.json() )
+                                 .then( this.completed )
+                                 .catch( this.failed );
+});
+ 
 module.exports = YahooQuoteActions;

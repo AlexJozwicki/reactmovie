@@ -101,6 +101,6 @@ var Page2 = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = Page2;
