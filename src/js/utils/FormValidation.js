@@ -6,6 +6,7 @@ class FormValidation {
         this.validationRules = Immutable.Map(validationRules);
     }
 
+    // Generate and return a form state object, based on fields available in validation rules, that represent the pristine state of the form
     pristineState(){
         var fields = Immutable.Map().withMutations( (f) => {
             for (let field of this.validationRules.keySeq()) {
@@ -23,6 +24,7 @@ class FormValidation {
         return state;
     }
 
+    // return an updated version of a previous form object by applying validation rules on each field with supplied values
     validate(previousState, values, currentField = void 0) {
         var isFormValid = true;
         var fields = previousState.get("fields").withMutations((f) => {
