@@ -17,6 +17,8 @@ const defaultQuotes = Immutable.Map({
 
 class YahooQuoteStore extends airflux.Store {
     constructor() {
+        super();
+
         this.quotes = defaultQuotes;
         this.isReady = false;
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
@@ -46,7 +48,7 @@ class YahooQuoteStore extends airflux.Store {
             YahooQuoteActions.getQuotes(quotesSymbols);
         } else {
             this.lastUpdateAt = Moment();
-            this.trigger( this.value() );
+            this.publishState();
         }
     }
 
@@ -85,7 +87,7 @@ class YahooQuoteStore extends airflux.Store {
 
             this.lastUpdateAt = Moment(apiResponse.query.created, YahooDateTimePattern);
             this.isReady = true;
-            this.trigger(this.value());
+            this.publishState();
         }
     }
 
@@ -110,7 +112,8 @@ class YahooQuoteStore extends airflux.Store {
                 currentQuotes.delete(symbol);
             });
         });
-        this.trigger(this.value());
+
+        this.publishState();
     }
 }
 

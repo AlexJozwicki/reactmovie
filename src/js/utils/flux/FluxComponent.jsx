@@ -1,4 +1,5 @@
-var React   = require( 'react' );
+var _ = require( 'lodash' );
+var React   = require( 'react/addons' );
 var { Listener }= require( 'airflux' );
 
 

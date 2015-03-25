@@ -19,7 +19,7 @@ class FluxAsyncComponent extends FluxComponent {
     }
 
     render( component ) {
-        if( this._storesConnected() ) 
+        if( this.areStoresConnected() )
             return this.renderAsync();
         else
             return this.renderLoader();

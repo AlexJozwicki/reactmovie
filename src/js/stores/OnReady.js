@@ -6,6 +6,7 @@ var OnReadyActions = {
 
 class OnReadyStore extends airflux.Store {
     constructor() {
+        super();
         this.isReady = false;
         this.listenTo( OnReadyActions.updateStatus, this.statusUpdated );
     }
