@@ -1,30 +1,26 @@
 var React = require("react/addons");
 var Immutable = require("immutable");
 var Contact = require("../models/Contact");
-var FormValidation = require("../utils/FormValidation");
-var Utils = require("../utils/Utils");
+var { FormValidation, Utils } = require("../utils");
 var Validate = Utils.validate;
+
 
 class Page2 extends React.Component {
     constructor(props) {
         super( props );
         this.state = {
             contact: Page2.defaultContact,
-            formState: Page2.formValidationRules,
-            formValidation: new FormValidation(Page2.formValidationRules)
+            formState: Page2.formValidator.pristineState()
         };
-    }
-
-    validateField(path, value) {
-        this.state.formValidation.validate(path, value);
     }
 
     linkState(path) {
         return {
             value: Utils.getIn(this.state.contact, path),
             requestChange: (value) => {
-                this.validateField(path, value);
-                this.setState({contact: Utils.updateIn(this.state.contact, path, value)});
+                let updatedContact = Utils.updateIn(this.state.contact, path, value);
+                let updatedFormState = Page2.formValidator.validate(this.state.formState, updatedContact, path);
+                this.setState({contact: updatedContact, formState: updatedFormState});
             }
         };
     }
@@ -41,7 +37,6 @@ class Page2 extends React.Component {
     }
 
     render() {
-
         return (
             <div>
                 <div className="col-sm-12">
@@ -86,7 +81,7 @@ class Page2 extends React.Component {
                     <pre>{JSON.stringify(this.state.contact, null, '  ')}</pre>
                 </div>
                 <div className="col-sm-12">
-                    <pre>{JSON.stringify(this.state.formValidation, null, '  ')}</pre>
+                    <pre>{JSON.stringify(this.state.formState, null, '  ')}</pre>
                 </div>
             </div>
         );
@@ -94,11 +89,14 @@ class Page2 extends React.Component {
 };
 
 Page2.languages = Immutable.Map({de: "German", en: "English", fr: "French"});
+
 Page2.movies = Immutable.Set.of(["Saturday night fever", "Fight Club", "Wayne's World", "Ghost", "The Fifth Element"]);
+
 Page2.defaultContact = new Contact("", "", "", "");
-Page2.formValidationRules = {
+
+Page2.formValidator = new FormValidation({
     firstName: Validate.notEmpty,
     lastName: Validate.notEmpty
-};
+});
 
 module.exports = Page2;

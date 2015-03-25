@@ -1,6 +1,6 @@
 module.exports = {
-    Guid     : require( "./Guid" ),
-    OnReady  : require( "./../stores/OnReady" ),
-    Utils    : require( "./Utils" ),
-    invariant: require( "./invariant" )
+    Guid           : require( "./Guid" ),
+    FormValidation : require( "./FormValidation" ),
+    Utils          : require( "./Utils" ),
+    invariant      : require( "./invariant" )
 };
