@@ -6,9 +6,9 @@ class Contact extends Rtti {
         this.firstName = firstName || "";
         this.lastName = lastName || "";
         this.email = email || "";
-        this.language = language || "en";
-        this.age = age || "0";
-        this.gender = gender || "m";
+        this.language = language || "";
+        this.age = age || "";
+        this.gender = gender || "";
         this.password = password || "";
         this.favoriteMovies = favoriteMovies || [];
     }

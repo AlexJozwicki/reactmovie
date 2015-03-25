@@ -14,11 +14,14 @@ class FormValidation {
                 dirty: false
             }
         }
-        return {
+        var state = {
             dirty : false,
             valid : false,
             fields: fields
-        }
+        };
+
+        state.isFieldValid = (fieldName) => {return FormValidation.isFieldValid(state, fieldName)};
+        return state;
     }
 
     validate(previousState, values, currentField = void 0) {
@@ -34,16 +37,24 @@ class FormValidation {
                 dirty: (currentField === field) ? true : previousState.fields[field].dirty
             }
         }
-        return {
+        var state = {
             dirty:true,
             valid:isFormValid,
             fields:fields
-        }
-    }
+        };
 
-    isFieldValid(currentState, field) {
-        return currentState.fields[field] && currentState.fields[field].valid;
+        state.isFieldValid = (fieldName) => { return FormValidation.isFieldValid(state, fieldName) };
+        return state;
     }
 }
+
+FormValidation.isFieldValid = (formState, fieldName) => {
+    var field = formState.fields[fieldName];
+    if(field) {
+        return !field.dirty || field.valid;
+    } else {
+        return true;
+    }
+};
 
 module.exports = FormValidation;

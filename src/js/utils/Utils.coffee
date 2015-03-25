@@ -66,13 +66,25 @@ Utils.validate =
     notEmpty: (value) ->
         !Validator.isNull(value)
 
+    lt: Utils.js.curry (max, value) ->
+        value < min
+
+    lte: Utils.js.curry (max, value) ->
+        value <= min
+
+    gt: Utils.js.curry (min, value) ->
+        value > min
+
+    gte: Utils.js.curry (min, value) ->
+        value >= min
+
     length: Utils.js.curry (min, max, value) ->
         Validator.isLength(value, min, max)
 
-    min: Utils.js.curry (min, value) ->
+    minLength: Utils.js.curry (min, value) ->
         Validator.isLength(value, min)
 
-    max: Utils.js.curry (max, value) ->
+    maxLength: Utils.js.curry (max, value) ->
         Validator.isLength(value, 0, max)
 
     email: (value) ->
