@@ -1,5 +1,5 @@
 var _                   = require( 'lodash' );
-var Reflux              = require('reflux');
+var airflux             = require('airflux');
 var Immutable           = require('immutable');
 var Moment              = require('moment');
 var YahooQuoteActions   = require('./YahooQuoteActions');
@@ -15,8 +15,8 @@ const defaultQuotes = Immutable.Map({
     MSFT: {}
 });
 
-var YahooQuoteStore = Reflux.createStore({
-    init() {
+class YahooQuoteStore extends airflux.Store {
+    constructor() {
         this.quotes = defaultQuotes;
         this.isReady = false;
         this.lastUpdateAt = Moment(aLongTimeAgo, YahooDateTimePattern);
@@ -27,18 +27,18 @@ var YahooQuoteStore = Reflux.createStore({
         this.listenTo( YahooQuoteActions.getQuotes.failed, this.getQuotesFailed );
         this.listenTo( YahooQuoteActions.addQuoteSymbols, this.addQuoteSymbols );
         this.listenTo( YahooQuoteActions.removeQuoteSymbols, this.removeQuoteSymbols );
-    },
+    }
 
     /**
      * This should return the same value as every trigger
      */
-    value() {
+    get state() {
         if(this.isReady) {
             return this.quotes;
         } else {
             return void 0;
         }
-    },
+    }
 
     refreshQuotes() {
         var quotesSymbols = this.quotes.keySeq().toArray();
@@ -48,11 +48,11 @@ var YahooQuoteStore = Reflux.createStore({
             this.lastUpdateAt = Moment();
             this.trigger( this.value() );
         }
-    },
+    }
 
     refreshQuote(symbol) {
         YahooQuoteActions.getQuotes([symbol]);
-    },
+    }
 
     getQuotesCompleted(apiResponse) {
         /*
@@ -87,11 +87,11 @@ var YahooQuoteStore = Reflux.createStore({
             this.isReady = true;
             this.trigger(this.value());
         }
-    },
+    }
 
     getQuotesFailed(someError) {
         console.log("something went wrong with quotes api. Error:", someError);
-    },
+    }
 
     addQuoteSymbols(symbols) {
         this.quotes = this.quotes.withMutations( (currentQuotes) => {
@@ -102,7 +102,7 @@ var YahooQuoteStore = Reflux.createStore({
             });
         });
         YahooQuoteActions.getQuotes(symbols);
-    },
+    }
 
     removeQuoteSymbols(symbols) {
         this.quotes = this.quotes.withMutations( (currentQuotes) => {
@@ -112,7 +112,6 @@ var YahooQuoteStore = Reflux.createStore({
         });
         this.trigger(this.value());
     }
+}
 
-});
-
-module.exports = YahooQuoteStore;
+module.exports = new YahooQuoteStore();

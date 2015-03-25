@@ -1,22 +1,21 @@
-var _       = require( 'lodash' );
-var React   = require( 'react/addons' );
+var React   = require( 'react' );
+var { Listener }= require( 'airflux' );
 
 
 /**
- * A component that is wired on Fluo or Reflux stores.
- *
+ * A component that is wired on Airflux or Reflux stores.
  */
 class FluxComponent extends React.Component {
     constructor( props, listenables ) {
         super( props );
         this.state = {};
         this.listenables = listenables;
-        this.subscriptions = [];
+        this._listener = new Listener();
 
         for( var key in this.listenables ) {
             let listenable = this.listenables[key];
             if( !_.isFunction( this[key] ) )
-                this.state[key] = _.isFunction( listenable.value ) ? listenable.value() : void 0;
+                this.state[key] = listenable.state;
         }
     }
 
@@ -25,7 +24,7 @@ class FluxComponent extends React.Component {
      * @private
      * @return {Boolean}
      */
-    _storesConnected() {
+    areStoresConnected() {
         var res = true;
         for( var key in this.listenables ) {
             res = res && this.state[ key ];
@@ -41,12 +40,12 @@ class FluxComponent extends React.Component {
         for( var key in this.listenables ) {
             let listenable = this.listenables[key];
             if( _.isFunction( this[key] ) ) {
-                this.subscriptions.push( listenable.listen( function() {
+                this._listener.listenTo( listenable, function() {
                     thisComponent[key]( ...arguments )
-                } ) );
+                } );
             }
             else
-                this.subscriptions.push( listenable.listen( ( value ) => this.setState( { [key]: value } ) ) );
+                this._listener.listenTo( listenable, ( value ) => this.setState( { [key]: value } ) );
         }
     }
 
@@ -55,7 +54,7 @@ class FluxComponent extends React.Component {
      * Unregister from the stores
      */
     componentWillUnmount() {
-        this.subscriptions.forEach( ( unsubscribe ) => unsubscribe() );
+        this._listener.stopListeningToAll();
     }
 }
 
