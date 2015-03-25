@@ -19,14 +19,16 @@ class Page2 extends React.Component {
         this.onReset = this.onReset.bind(this);
     }
 
+    _validateField(path, value){
+        let updatedContact = Utils.updateIn(this.state.contact, path, value);
+        let updatedFormState = Page2.formValidator.validate(this.state.formState, updatedContact, path);
+        this.setState({contact: updatedContact, formState: updatedFormState});
+    }
+
     linkState(path) {
         return {
             value: Utils.getIn(this.state.contact, path),
-            requestChange: (value) => {
-                let updatedContact = Utils.updateIn(this.state.contact, path, value);
-                let updatedFormState = Page2.formValidator.validate(this.state.formState, updatedContact, path);
-                this.setState({contact: updatedContact, formState: updatedFormState});
-            }
+            requestChange: (value) => this._validateField(path, value)
         };
     }
 
@@ -35,18 +37,16 @@ class Page2 extends React.Component {
             value: value === Utils.getIn(this.state.contact, path),
             requestChange: (check) => {
                 if (check) {
-                    let updatedContact = Utils.updateIn(this.state.contact, path, value);
-                    let updatedFormState = Page2.formValidator.validate(this.state.formState, updatedContact, path);
-                    this.setState({contact: updatedContact, formState: updatedFormState});
+                    this._validateField(path, value)
                 }
             }
         };
     }
 
-    isFormValid(){ return this.state.formState.valid; }
+    isFormValid(){ return FormValidation.isFormValid(this.state.formState); }
 
     inputStateClass(field) {
-        return classnames({"form-control": true, "has-error":!this.state.formState.isFieldValid(field)});
+        return classnames({"form-control": true, "has-error":!FormValidation.isFieldValid(this.state.formState, field)});
     }
 
     onSubmit(e) {

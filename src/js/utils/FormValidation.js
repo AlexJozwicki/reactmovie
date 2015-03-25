@@ -7,54 +7,53 @@ class FormValidation {
     }
 
     pristineState(){
-        var fields = {};
-        for (let field of this.validationRules.keySeq()) {
-            fields[field] = {
-                valid: false,
-                dirty: false
+        var fields = Immutable.Map().withMutations( (f) => {
+            for (let field of this.validationRules.keySeq()) {
+                f.set(field,{
+                    valid: false,
+                    dirty: false
+                });
             }
-        }
-        var state = {
-            dirty : false,
-            valid : false,
-            fields: fields
-        };
-
-        state.isFieldValid = (fieldName) => {return FormValidation.isFieldValid(state, fieldName)};
+        });
+        var state = Immutable.Map({
+            dirty:false,
+            valid:false,
+            fields:fields
+        });
         return state;
     }
 
     validate(previousState, values, currentField = void 0) {
-
-        var fields = {};
         var isFormValid = true;
-
-        for(let field of Object.keys(previousState.fields)) {
-            let isFieldValid = this.validationRules.get(field)(Utils.getIn(values, field));
-            isFormValid = isFormValid && isFieldValid;
-            fields[field] = {
-                valid: isFieldValid,
-                dirty: (currentField === field) ? true : previousState.fields[field].dirty
+        var fields = previousState.get("fields").withMutations((f) => {
+            for(let field of f.keySeq()) {
+                let isFieldValid = this.validationRules.get(field)(Utils.getIn(values, field));
+                isFormValid = isFormValid && isFieldValid;
+                f.set(field, {
+                    valid: isFieldValid,
+                    dirty: (currentField === field) ? true : previousState.getIn(["fields", field]).dirty
+                });
             }
-        }
-        var state = {
-            dirty:true,
-            valid:isFormValid,
-            fields:fields
-        };
+        });
 
-        state.isFieldValid = (fieldName) => { return FormValidation.isFieldValid(state, fieldName) };
-        return state;
+        return previousState.withMutations((s) => {
+            s.set("dirty", true);
+            s.set("valid", isFormValid);
+            s.set("fields", fields);
+        });
+
     }
 }
 
 FormValidation.isFieldValid = (formState, fieldName) => {
-    var field = formState.fields[fieldName];
+    var field = formState.getIn(["fields", fieldName]);
     if(field) {
         return !field.dirty || field.valid;
     } else {
         return true;
     }
 };
+
+FormValidation.isFormValid = (formState) => formState.get("valid");
 
 module.exports = FormValidation;
