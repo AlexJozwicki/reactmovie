@@ -6,6 +6,8 @@ var React   = require('react');
 var Router  = require('react-router');
 var Home    = require('./home');
 var BasicReactSample = require( './BasicReactSample' );
+var MovieList = require( './MovieList' );
+
 
 /**
  * The routes of your application
@@ -13,6 +15,7 @@ var BasicReactSample = require( './BasicReactSample' );
 const routes = (
     <Router.Route path="/" handler={Home}>
         <Router.DefaultRoute handler={BasicReactSample} />
+        <Router.Route name="MovieList" path="/list" addHandlerKey={true} handler={MovieList}/>
         <Router.NotFoundRoute handler={BasicReactSample}/>
     </Router.Route>
 );

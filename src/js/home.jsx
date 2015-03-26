@@ -31,7 +31,7 @@ class NavBar extends React.Component {
 
                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul className="nav navbar-nav">
-                    <li><a href="#">My movies</a></li>
+                    <li><a href={this.context.router.makeHref( 'MovieList' )}>My movies</a></li>
                   </ul>
                 </div>
               </div>
@@ -39,6 +39,8 @@ class NavBar extends React.Component {
         );
     }
 }
+
+injectRouter( NavBar );
 
 /**
  *
