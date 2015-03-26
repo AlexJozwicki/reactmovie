@@ -1,4 +1,4 @@
-var React = require("react/addons");
+var React = require("react");
 var Immutable = require("immutable");
 var Contact = require("../models/Contact");
 var { FormValidation, Utils } = require("../utils");

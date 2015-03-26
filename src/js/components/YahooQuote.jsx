@@ -1,4 +1,4 @@
-var React = require("react/addons");
+var React = require("react");
 var Immutable = require("immutable");
 
 class YahooQuote extends React.Component {

@@ -11,7 +11,7 @@
     "moment": "2.9.0",
     "react": "0.13.1",
     "react-router": "~0.13.1",
-    "reflux": "0.2.7",
+    "airflux": "git://github.com/AlexJozwicki/airflux.git",
     "validator": "3.23.0",
     "whatwg-fetch": "^0.7.0"
   },

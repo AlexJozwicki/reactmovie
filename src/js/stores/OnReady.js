@@ -1,21 +1,21 @@
-var Reflux = require("reflux");
+var airflux = require("airflux");
 
-var OnReadyActions = Reflux.createActions([
-    "updateStatus"
-]);
+var OnReadyActions = {
+    updateStatus: new airflux.Action()
+};
 
-var OnReadyStore = Reflux.createStore({
-    listenables: OnReadyActions,
-
-    init() {
+class OnReadyStore extends airflux.Store {
+    constructor() {
+        super();
         this.isReady = false;
-    },
+        this.listenTo( OnReadyActions.updateStatus, this.statusUpdated );
+    }
 
     value() {
         return this.isReady;
-    },
+    }
 
-    onUpdateStatus(isReady) {
+    statusUpdated(isReady) {
         this.isReady = isReady;
 
         if( isReady ) {
@@ -25,10 +25,10 @@ var OnReadyStore = Reflux.createStore({
             this.trigger(this.isReady);
         }
     }
-});
+}
 
 
 module.exports = {
     OnReadyActions: OnReadyActions,
-    OnReadyStore  : OnReadyStore
+    OnReadyStore  : new OnReadyStore()
 };

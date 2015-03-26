@@ -1,5 +1,5 @@
 var _                   = require( 'lodash' );
-var React               = require('react/addons');
+var React               = require('react');
 var YahooQuoteStore     = require('../stores/YahooQuoteStore');
 var YahooQuoteActions   = require('../stores/YahooQuoteActions');
 var YahooQuote          = require('../components/YahooQuote');

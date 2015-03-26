@@ -1,4 +1,4 @@
-var React = require("react/addons");
+var React = require("react");
 var InfodataApi = require("../api/InfoDataApi");
 
 class Page3 extends React.Component {

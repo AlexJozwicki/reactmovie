@@ -1,4 +1,4 @@
-var React = require("react/addons");
+var React = require("react");
 
 class PageLoader extends  React.Component {
     constructor( props ) {
