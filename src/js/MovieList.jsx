@@ -1,7 +1,15 @@
 var React       = require( 'react' );
-var Immutable   = require( 'immutable' );
+var _           = require( 'lodash' );
 var classnames  = require( 'classnames' );
+var Modal       = require( './components/Modal' );
+var Movie       = require( './Movie' );
+var MovieForm   = require( './MovieForm' );
+var Guid        = require( './utils/Guid' );
 
+
+/**
+ * This is only the INITIAL list of movies and will never change.
+ */
 const movies = [
     {
         id: 1,
@@ -52,51 +60,44 @@ const movies = [
 ];
 
 
-/**
- * Movie class does the rendering of a single movie.
- * Data from the parents are passed using the `props` parameters.
- * Props are available throughout your class using `this.props`
- */
-class Movie extends React.Component {
-    constructor(props) {
-        super( props );
-    }
-
-    render() {
-        return (
-            <div className="row">
-                <img src={ `images/${this.props.movie.poster}`} className="col-xs-6 col-md-3" />
-                <div className="col-xs-6 col-md-9">
-                    <h3>{this.props.movie.title}</h3>
-                    <p><b>Year : </b>{this.props.movie.releaseYear}</p>
-                    <p><b>Réalisateur : </b>{this.props.movie.directors}</p>
-                    <p><b>Acteurs : </b>{this.props.movie.actors}</p>
-                    <p><b>Synopsis : </b>{this.props.movie.synopsis}</p>
-                    <p><b>Note : </b>{this.props.movie.rate}</p>
-                </div>
-            </div>
-        );
-    }
-}
-
-// checking of types passed by the parents is done by setting the static attribute `propTypes`
-Movie.propTypes = { movie: React.PropTypes.object.isRequired };
-
-
 
 class MovieList extends React.Component {
     constructor(props) {
         super( props );
+        this.state = {
+            displayForm: false,
+            movies: movies          // movies collection will be changed, so we put it in the state.
+        };
+    }
+
+    saveMovie( movie ) {
+        if( movie.id ) {
+            _.merge( _.find( this.state.movies, { id: movie.id } ), movie );
+            this.setState( { movies: this.state.movies, displayForm: false } );
+        }
+        else {
+            movie.id = Guid.generate();
+            this.state.movies.push( movie );
+            this.setState( { movies: this.state.movies, displayForm: false } );
+        }
+    }
+
+    showModal( shown = true ) {
+        this.setState( { displayForm: shown } );
     }
 
     render() {
         return (
             <div>
+                <button className="btn btn-default" onClick={this.showModal.bind( this )}>Add movie</button>
                 <ul className="thumbnails">
-                { /* we use JavaScript maps to transform a collection of data into a collection of components */}
-                { /* each child of this collection needs to have a unique `key` attribute to be identified by React */}
-                { movies.map( ( movie ) => <Movie movie={movie} key={movie.id} /> )}
+                    { /* we use JavaScript maps to transform a collection of data into a collection of components */}
+                    { /* each child of this collection needs to have a unique `key` attribute to be identified by React */}
+                    { this.state.movies.map( ( movie ) => <Movie movie={movie} key={movie.id} /> )}
                 </ul>
+                <Modal title="Add a movie" visible={this.state.displayForm} onCloseRequest={() => this.showModal( false )}>
+                    <MovieForm saveMovie={this.saveMovie.bind( this )}/>
+                </Modal>
             </div>
         );
     }
