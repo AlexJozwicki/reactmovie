@@ -2,9 +2,9 @@
 // require here because it's polyfill...
 require( 'whatwg-fetch' );
 
-var React 	= require('react/addons');
-var Router	= require('react-router');
-var Home 	= require('./home');
+var React   = require('react');
+var Router  = require('react-router');
+var Home    = require('./home');
 var { Page1, Page2, Page3 } = require( "./pages" );
 
 

@@ -1,4 +1,4 @@
-var React           = require( 'react/addons' );
+var React           = require( 'react' );
 var Router          = require( 'react-router' );
 var OnReadyStore    = require( './stores/OnReady' ).OnReadyStore;
 var OnReadyActions  = require( './stores/OnReady' ).OnReadyActions;

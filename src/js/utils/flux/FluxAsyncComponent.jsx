@@ -1,5 +1,5 @@
-var React           = require( 'react/addons' );
-var FluxComponent   = require( './FluxComponent' );
+var React           = require( 'react' );
+var FluxComponent   = require( 'airflux/lib/FluxComponent' );
 
 /**
  * A component that will display its child once every store has returned a value.

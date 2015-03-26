@@ -23,7 +23,7 @@ gulp.task('config', function(cb){
     // 1) {file:'react-router'}
     // 2) {file:'reflux/dist/reflux', expose:'reflux'}
     global.externalDeps = [
-        {file:'react/addons'},
+        {file:'react'},
         {file:'react-router'},
         {file:'es6-promise'},
         {file:'jquery'},
