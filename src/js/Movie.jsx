@@ -23,10 +23,10 @@ class Movie extends React.Component {
                 <div className="col-xs-6 col-md-9">
                     <h3>{this.props.movie.title}</h3>
                     <p><b>Year : </b>{this.props.movie.releaseYear}</p>
-                    <p><b>Réalisateur : </b>{this.props.movie.directors}</p>
-                    <p><b>Acteurs : </b>{this.props.movie.actors}</p>
+                    <p><b>Directors : </b>{this.props.movie.directors}</p>
+                    <p><b>Actors : </b>{this.props.movie.actors}</p>
                     <p><b>Synopsis : </b>{this.props.movie.synopsis}</p>
-                    <p><b>Note : </b>{this.props.movie.rate}</p>
+                    <p><b>Rating : </b>{this.props.movie.rate}</p>
                 </div>
             </div>
         );
