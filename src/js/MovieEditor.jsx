@@ -4,6 +4,7 @@ var { injectRouter }= require( './utils' );
 
 var MovieActions= require( './stores/MovieActions' );
 var MovieStore  = require( './stores/MovieStore' );
+var FluxComponent= require( 'airflux/lib/FluxComponent' );
 
 
 /**
@@ -91,24 +92,28 @@ MovieForm.propTypes = {
 injectRouter( MovieForm );
 
 
-class MovieEditor extends React.Component {
+class MovieEditor extends FluxComponent {
     constructor( props ) {
-        super( props );
+        super( props, { movieLoaded: MovieActions.find.completed } );
         this.state = { movie: null };
     }
 
     loadMovie() {
         var id = this.context.router.getCurrentParams().id;
         if( id ) {
-            var movie = MovieStore.find( id );
-            this.setState( { movie: movie } );
+            MovieStore.find( id );
         }
         else {
             this.setState( { movie: {} } );
         }
     }
 
+    movieLoaded( movie ) {
+        this.setState( { movie: movie } );
+    }
+
     componentDidMount() {
+        super.componentDidMount();
         this.loadMovie();
     }
 

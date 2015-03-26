@@ -70,6 +70,7 @@ class MovieStore extends airflux.Store {
          * Here we listen to the action `addMovie`
          */
         this.listenTo( MovieActions.addMovie, this.addMovie );
+        this.listenTo( MovieActions.find    , this.find );
     }
 
     /**
@@ -78,7 +79,7 @@ class MovieStore extends airflux.Store {
     get state() { return this.movies; }
 
     find( id ) {
-        return _.find( this.movies, { id: +id } );
+        MovieActions.find.completed( _.find( this.movies, { id: +id } ) );
     }
 
 

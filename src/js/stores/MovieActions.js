@@ -7,7 +7,9 @@ var MovieActions = {
      */
     addMovie    : new airflux.Action(),
 
-    movieAdded  : new airflux.Action()
+    movieAdded  : new airflux.Action(),
+
+    find        : new airflux.Action( { asyncResult: true } )
 };
 
 module.exports = MovieActions;

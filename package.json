@@ -11,7 +11,7 @@
     "moment": "2.9.0",
     "react": "0.13.1",
     "react-router": "~0.13.1",
-    "airflux": "0.1.0",
+    "airflux": "~0.1.2",
     "validator": "3.23.0",
     "whatwg-fetch": "^0.7.0"
   },
