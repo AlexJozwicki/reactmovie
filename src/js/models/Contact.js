@@ -2,7 +2,7 @@ var _ = require( "lodash" );
 var Rtti = require( "./Rtti");
 
 class Contact extends Rtti {
-    constructor(firstName, lastName, email, language, age, gender, password, favoriteMovies) {
+    constructor(firstName, lastName, email, language, age, gender, password, favoriteMovies, tscs) {
         this.firstName = firstName || "";
         this.lastName = lastName || "";
         this.email = email || "";
@@ -11,6 +11,7 @@ class Contact extends Rtti {
         this.gender = gender || "";
         this.password = password || "";
         this.favoriteMovies = favoriteMovies || [];
+        this.tscs = tscs || false;
     }
 
     static fromObject( object ) {

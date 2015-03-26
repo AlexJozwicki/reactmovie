@@ -43,7 +43,6 @@ class FormValidation {
             s.set("valid", isFormValid);
             s.set("fields", fields);
         });
-
     }
 }
 
