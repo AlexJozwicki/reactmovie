@@ -15,7 +15,7 @@ var MovieEditor = require( './MovieEditor' );
  */
 const routes = (
     <Router.Route path="/" handler={Home}>
-        <Router.DefaultRoute handler={BasicReactSample} />
+        <Router.DefaultRoute handler={MovieList} />
         <Router.Route name="MovieList" path="/list" addHandlerKey={true} handler={MovieList}/>
         <Router.Route name="EditMovie" path="/edit/:id" addHandlerKey={true} handler={MovieEditor}/>
         <Router.Route name="NewMovie" path="/edit" addHandlerKey={true} handler={MovieEditor}/>
