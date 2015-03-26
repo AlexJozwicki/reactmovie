@@ -4,20 +4,7 @@ var classnames      = require( 'classnames' );
 var FluxComponent   = require( 'airflux/lib/FluxComponent' );
 var MovieActions    = require( './stores/MovieActions' );
 var Immutable       = require( 'immutable' );
-
-
-/**
- * Injects the router into the class
- * @param  {React.Component} cl the class of your component
- * @return {React.Component}
- */
-function injectRouter( cl ) {
-    cl.contextTypes = {
-        router: React.PropTypes.func.isRequired
-    };
-
-    return cl;
-}
+var { injectRouter }= require( './utils' );
 
 
 class NavBar extends FluxComponent {
@@ -46,6 +33,7 @@ class NavBar extends FluxComponent {
                 <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   <ul className="nav navbar-nav">
                     <li><a href={this.context.router.makeHref( 'MovieList' )}>My movies</a></li>
+                    <li><a href={this.context.router.makeHref( 'NewMovie' )}>Add movie</a></li>
                   </ul>
                 </div>
 

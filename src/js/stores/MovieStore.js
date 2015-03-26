@@ -1,7 +1,8 @@
+var _ = require( 'lodash' );
 var airflux = require( 'airflux' );
-var MovieActions = require( './MovieActions' );
-var Guid        = require( '../utils/Guid' );
 
+var MovieActions= require( './MovieActions' );
+var { Guid }    = require( '../utils' );
 
 /**
  * This is only the INITIAL list of movies and will never change.
@@ -75,6 +76,10 @@ class MovieStore extends airflux.Store {
      * The `state` of the store is directly passed to components listening to it
      */
     get state() { return this.movies; }
+
+    find( id ) {
+        return _.find( this.movies, { id: +id } );
+    }
 
 
     addMovie( movie ) {

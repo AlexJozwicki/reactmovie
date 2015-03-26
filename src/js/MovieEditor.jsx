@@ -1,6 +1,9 @@
-var React       = require( 'react' );
-var _           = require( 'lodash' );
+var React           = require( 'react' );
+var _               = require( 'lodash' );
+var { injectRouter }= require( './utils' );
 
+var MovieActions= require( './stores/MovieActions' );
+var MovieStore  = require( './stores/MovieStore' );
 
 
 /**
@@ -17,7 +20,7 @@ class MovieForm extends React.Component {
          *
          * @type {Object}
          */
-        this.state = { movie: _.clone( props.movie || {} ) };
+        this.state = { movie: props.movie };
     }
 
 
@@ -41,7 +44,8 @@ class MovieForm extends React.Component {
     }
 
     saveMovie() {
-        this.props.saveMovie( this.state.movie );
+        MovieActions.addMovie( this.state.movie );
+        this.context.router.transitionTo( 'MovieList' );
     }
 
     render() {
@@ -84,6 +88,43 @@ MovieForm.propTypes = {
     movie       : React.PropTypes.object,
     saveMovie   : React.PropTypes.func.isRequired
 };
+injectRouter( MovieForm );
 
 
-module.exports = MovieForm;
+class MovieEditor extends React.Component {
+    constructor( props ) {
+        super( props );
+        this.state = { movie: null };
+    }
+
+    loadMovie() {
+        var id = this.context.router.getCurrentParams().id;
+        if( id ) {
+            var movie = MovieStore.find( id );
+            this.setState( { movie: movie } );
+        }
+        else {
+            this.setState( { movie: {} } );
+        }
+    }
+
+    componentDidMount() {
+        this.loadMovie();
+    }
+
+    componentWillReceiveProps( nextProps ) {
+        this.loadMovie();
+    }
+
+    render() {
+        if( !this.state.movie ) return null;
+
+        return (
+            <MovieForm movie={this.state.movie}/>
+        );
+    }
+}
+injectRouter( MovieEditor );
+
+
+module.exports = MovieEditor;
