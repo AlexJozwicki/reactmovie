@@ -4,7 +4,7 @@ var OnReadyStore    = require( './stores/OnReady' ).OnReadyStore;
 var OnReadyActions  = require( './stores/OnReady' ).OnReadyActions;
 var classnames      = require( 'classnames' );
 
-var { FluxComponent } = require( './utils/flux' );
+var FluxComponent   = require( 'airflux/lib/FluxComponent' );
 
 function injectRouter( cl ) {
     cl.contextTypes = {
