@@ -81,6 +81,10 @@ class MovieStore extends airflux.Store {
         movie.id = Guid.generate();
         this.movies.push( movie );
         this.publishState();    // tell every component listening to it that something has changed
+
+        // we publish an event that a movie was added. component could listen to this
+        // to receive only the last movie added instead of the whole state.
+        MovieActions.movieAdded( movie );
     }
 }
 

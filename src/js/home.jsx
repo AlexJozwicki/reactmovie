@@ -1,6 +1,10 @@
 var React           = require( 'react' );
 var Router          = require( 'react-router' );
 var classnames      = require( 'classnames' );
+var FluxComponent   = require( 'airflux/lib/FluxComponent' );
+var MovieActions    = require( './stores/MovieActions' );
+var Immutable       = require( 'immutable' );
+
 
 /**
  * Injects the router into the class
@@ -16,9 +20,19 @@ function injectRouter( cl ) {
 }
 
 
-class NavBar extends React.Component {
+class NavBar extends FluxComponent {
     constructor( props ) {
-        super( props );
+        // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
+        super( props, { movieAdded: MovieActions.movieAdded } );
+        this.state = { notifications: Immutable.List() };
+    }
+
+    /**
+     * We display a small notification that a movie was added
+     */
+    movieAdded( movie ) {
+        this.setState( { notifications: this.state.notifications.push( `${movie.title} was added` ) } );
+        setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
     }
 
     render() {
@@ -34,6 +48,12 @@ class NavBar extends React.Component {
                     <li><a href={this.context.router.makeHref( 'MovieList' )}>My movies</a></li>
                   </ul>
                 </div>
+
+                <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul className="nav navbar-nav">
+                    { this.state.notifications.map( ( notification ) => <li>{notification}</li> ) }
+                  </ul>
+                </div>
               </div>
             </nav>
         );
@@ -41,6 +61,8 @@ class NavBar extends React.Component {
 }
 
 injectRouter( NavBar );
+
+
 
 /**
  *
