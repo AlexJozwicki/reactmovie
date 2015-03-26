@@ -1,33 +1,27 @@
-# ReactJs app seed
+# React Movies
 
-This is a single page application using ReactJs.
-The final build is based on 4 files :
+A tutorial application made in React.
 
-- index.html : the single page...
-- main.css : the css file of the app (build from scss)
-- vendor.js : everything coming from external javascript library (i.e. ReactJs)
-- app.js : our code
+# Steps
 
-As example, we use in this sample app, react-router & reflux-js, and more...
+## Overview
 
-## Requirements :
+1. Base setup of an application, using the state with an input
+2. Displaying a static list of movies
+3. Editing the list of movies
+4. Using stores to keep the list of movies
+5. Creating new routes for your application using React Router
 
-* npm / node (>0.10) : your preferred package manager will install it
-* sass / compass : gem install sass / gem install compass
-* gulp : npm install gulp -g
+## Step 1
 
-## Start it :
-* before first run : npm install
-* gulp
-* and open your browser on http://localhost:8001
+### Concepts covered
+State
 
-## Test :
-* gulp test
+## Step 2
 
-## To build a release :
-* gulp build-prod
+### Concepts covered
 
-
+State, Props
 
 
 
