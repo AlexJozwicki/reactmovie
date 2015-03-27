@@ -15,13 +15,35 @@ A tutorial application made in React.
 ## Step 1
 
 ### Concepts covered
-State
+React Components, State
 
 ## Step 2
 
 ### Concepts covered
 
-State, Props
+Passing Props between components
+
+## Step 3
+
+### Concepts covered
 
 
+## Step 4
+
+### Concepts covered
+
+1. Flux Stores and action
+2. Maping the state of a store to the state of a component
+
+### Step 4 More
+
+1. Adding another action into the mix
+2. Listening to by a Component using a callback
+
+## Step 5
+
+### Concepts covered
+
+1. Simple routing 
+2. MovieEditor: Seperating the loading logic from the display logic
 
