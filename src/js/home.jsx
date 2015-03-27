@@ -44,7 +44,7 @@ injectRouter( NavBar );
 class Home extends FluxComponent {
     constructor( props ) {
         // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
-        super( props, { movieAdded: MovieActions.movieAdded } )
+        super( props, { movieAdded: MovieActions.addMovie.completed } )
         this.state = { notifications: Immutable.List() };
     }
 

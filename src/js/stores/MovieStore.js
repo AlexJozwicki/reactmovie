@@ -18,7 +18,7 @@ class MovieStore extends airflux.Store {
         /**
          * Here we listen to the action `addMovie`
          */
-        this.listenTo( MovieActions.addMovie, this.addMovie );
+        this.listenTo( MovieActions.addMovie.completed, this.movieAdded );
         this.listenTo( MovieActions.find    , this.find );
         this.listenTo( MovieActions.getAll.completed, this.gotAllMovies );
     }
@@ -38,14 +38,9 @@ class MovieStore extends airflux.Store {
     }
 
 
-    addMovie( movie ) {
-        movie.id = Guid.generate();
+    movieAdded( movie ) {
         this.movies.push( movie );
         this.publishState();    // tell every component listening to it that something has changed
-
-        // we publish an event that a movie was added. component could listen to this
-        // to receive only the last movie added instead of the whole state.
-        MovieActions.movieAdded( movie );
     }
 }
 
