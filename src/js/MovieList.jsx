@@ -88,8 +88,8 @@ class MovieList extends React.Component {
 
     render() {
         return (
-            <div>
-                <button className="btn btn-default" onClick={this.showModal.bind( this )}>Add movie</button>
+            <div className="container">
+                <button className="btn btn-primary" onClick={this.showModal.bind( this )}>Add movie</button>
                 <ul className="thumbnails">
                     { /* we use JavaScript maps to transform a collection of data into a collection of components */}
                     { /* each child of this collection needs to have a unique `key` attribute to be identified by React */}
