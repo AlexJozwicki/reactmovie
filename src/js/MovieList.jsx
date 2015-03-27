@@ -87,9 +87,28 @@ class MovieList extends React.Component {
     }
 
     render() {
+        /**
+         * Styles are declared using the DOM notations
+         */
+        var headingStyle = {
+            margin: '0 0 1em 0'
+        };
+
+        /**
+         * Any property you want to set has to be set using the DOM syntax and not HTML:
+         * - className instead of class
+         * - onClick instead of just onclick (with a C uppercase)
+         * - style is not a string but an object, with keys.
+         * - keys of style will be for example backgroundColor
+         */
         return (
             <div className="container">
-                <button className="btn btn-primary" onClick={this.showModal.bind( this )}>Add movie</button>
+                <header className="row">
+                    <div className="col-md-6 col-md-offset-1"><h1 style={headingStyle}>My movies <small>{this.state.movies.length} movies</small></h1></div>
+                    <div className="col-md-3">
+                        <button className="btn btn-primary" onClick={this.showModal.bind( this )}>Add movie</button>
+                    </div>
+                </header>
                 <ul className="thumbnails">
                     { /* we use JavaScript maps to transform a collection of data into a collection of components */}
                     { /* each child of this collection needs to have a unique `key` attribute to be identified by React */}
