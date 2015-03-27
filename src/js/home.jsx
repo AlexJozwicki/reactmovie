@@ -7,19 +7,9 @@ var Immutable       = require( 'immutable' );
 var { injectRouter }= require( './utils' );
 
 
-class NavBar extends FluxComponent {
+class NavBar extends React.Component {
     constructor( props ) {
-        // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
-        super( props, { movieAdded: MovieActions.movieAdded } );
-        this.state = { notifications: Immutable.List() };
-    }
-
-    /**
-     * We display a small notification that a movie was added
-     */
-    movieAdded( movie ) {
-        this.setState( { notifications: this.state.notifications.push( `${movie.title} was added` ) } );
-        setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
+        super( props );
     }
 
     render() {
@@ -36,19 +26,13 @@ class NavBar extends FluxComponent {
                     <li><a href={this.context.router.makeHref( 'NewMovie' )}>Add movie</a></li>
                   </ul>
                 </div>
-
-                <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                  <ul className="nav navbar-nav">
-                    { this.state.notifications.map( ( notification ) => <li>{notification}</li> ) }
-                  </ul>
-                </div>
               </div>
             </nav>
         );
     }
 }
-
 injectRouter( NavBar );
+
 
 
 
@@ -57,15 +41,26 @@ injectRouter( NavBar );
  * HOME PAGE
  *
  */
-class Home extends React.Component {
+class Home extends FluxComponent {
     constructor( props ) {
-        super( props )
+        // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
+        super( props, { movieAdded: MovieActions.movieAdded } )
+        this.state = { notifications: Immutable.List() };
+    }
+
+    /**
+     * We display a small notification that a movie was added
+     */
+    movieAdded( movie ) {
+        this.setState( { notifications: this.state.notifications.push( `${movie.title} was added` ) } );
+        setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
     }
 
     render(){
         return (
             <div id="wrapper">
                 <NavBar/>
+                { this.state.notifications.map( ( notification ) => <div className="alert alert-success">{notification}</div> ) }
                 <Router.RouteHandler />
             </div>
         );
