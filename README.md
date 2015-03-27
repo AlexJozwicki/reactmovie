@@ -46,4 +46,10 @@ Passing Props between components
 
 1. Simple routing 
 2. MovieEditor: Seperating the loading logic from the display logic
+3. Using child actions to map an asynchronous result (.completed/.failed)
 
+## Step 6
+
+### Concepts covered
+
+1. Doing asynchronous calls to a web service through Flux Actions
