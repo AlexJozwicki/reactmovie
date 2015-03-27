@@ -40,9 +40,29 @@ class MovieList extends FluxComponent {
     }
 
     render() {
+        /**
+         * Styles are declared using the DOM notations
+         */
+        var headingStyle = {
+            margin: '0 0 1em 0'
+        };
+
+        /**
+         * Any property you want to set has to be set using the DOM syntax and not HTML:
+         * - className instead of class
+         * - onClick instead of just onclick (with a C uppercase)
+         * - style is not a string but an object, with keys.
+         * - keys of style will be for example backgroundColor
+         */
         return (
-            <div>
-                <button className="btn btn-default" onClick={() => this.showModal( true )}>Add movie</button>
+            <div className="container">
+                <header className="row">
+                    <div className="col-md-6 col-md-offset-1"><h1 style={headingStyle}>My movies <small>{this.state.movies.length} movies</small></h1></div>
+                    <div className="col-md-3">
+                        <button className="btn btn-primary" onClick={() => this.showModal( true )}>Add movie</button>
+                    </div>
+                </header>
+
                 <ul className="thumbnails">
                     { /* the state is still accessible, just as before */}
                     { this.state.movies.map( ( movie ) => <Movie movie={movie} key={movie.id} /> )}
