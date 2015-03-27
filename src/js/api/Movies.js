@@ -1,28 +1,25 @@
 var Uri = require( './Uri' );
+var { checkStatusJsonError, parseJson } = require( './FetchTransformers' );
 
-function status(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return Promise.resolve(response)
-  } else {
-    return Promise.reject(new Error(response.statusText))
-  }
-}
 
 var Movies = {
     getAll() {
-        return fetch( '/api/movies' ).then( ( response ) => response.json() );
+        return fetch( '/api/movies' ).then( parseJson );
     },
 
     addMovie( movie ) {
-        return fetch( '/api/movies',
-            { method: 'POST',
-              headers: {
+        var options = {
+            method: 'POST',
+            headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              },
-              body: JSON.stringify( movie )
-            } ).then( status ).then( ( response ) => response.json() );
+            },
+            body: JSON.stringify( movie )
+        };
+
+        return fetch( '/api/movies', options ).then( checkStatusJsonError ).then( parseJson );
     }
 };
+
 
 module.exports = Movies;

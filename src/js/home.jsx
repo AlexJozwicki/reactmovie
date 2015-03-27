@@ -57,7 +57,7 @@ class Home extends FluxComponent {
     }
 
     addMovieFailed( error ) {
-        this.setState( { errors: this.state.errors.push( `${error}` ) } );
+        this.setState( { errors: this.state.errors.push( `${error.error}` ) } );
         setTimeout( () => this.setState( { errors: this.state.errors.shift() } ), 3000 );
     }
 

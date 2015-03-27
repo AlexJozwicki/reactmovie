@@ -1,8 +1,8 @@
-var _ = require( 'lodash' );
-var airflux = require( 'airflux' );
+var _               = require( 'lodash' );
+var airflux         = require( 'airflux' );
 
-var MovieActions= require( './MovieActions' );
-var { Guid }    = require( '../utils' );
+var MovieActions    = require( './MovieActions' );
+var { Guid }        = require( '../utils' );
 
 
 

@@ -1,5 +1,5 @@
-var airflux = require( 'airflux' );
-var { MoviesApi } = require( '../api' );
+var airflux         = require( 'airflux' );
+var { MoviesApi }   = require( '../api' );
 
 var MovieActions = {
     /**
