@@ -91,12 +91,10 @@ class MovieList extends React.Component {
 
     render() {
         return (
-            <div>
-                <ul className="thumbnails">
+            <div className="container">
                 { /* we use JavaScript maps to transform a collection of data into a collection of components */}
                 { /* each child of this collection needs to have a unique `key` attribute to be identified by React */}
                 { movies.map( ( movie ) => <Movie movie={movie} key={movie.id} /> )}
-                </ul>
             </div>
         );
     }
