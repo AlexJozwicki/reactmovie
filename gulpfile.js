@@ -3,7 +3,8 @@ var connect     = require('gulp-connect'),
     gulp        = require('gulp'),
     eslint      = require('gulp-eslint'),
     karma       = require('karma').server,
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    mockServer  = require( './server');
 
 var jshintConfig = {
     esnext: true,
@@ -23,11 +24,21 @@ gulp.task('clean-test', function (cb) {
 });
 
 gulp.task('serve', function() {
+    mockServer.start();
 
     connect.server({
         port:8001,
         root: './build',
-        livereload: true
+        livereload: true,
+        middleware: function(connect, o) {
+            return [ (function() {
+                var url = require('url');
+                var proxy = require('proxy-middleware');
+                var options = url.parse('http://localhost:3001/server/api');
+                options.route = '/api';
+                return proxy(options);
+            })() ];
+        }
     });
 
 });

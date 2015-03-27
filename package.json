@@ -16,6 +16,11 @@
     "whatwg-fetch": "^0.7.0"
   },
   "devDependencies": {
+    "colors": "^1.0.3",
+    "body-parser": "^1.9.0",
+    "express": "^4.9.7",
+    "serve-static": "^1.6.4",
+    "path": "*",
     "babel-eslint": "1.0.12",
     "babelify": "5.0.4",
     "browserify": "~7.1.0",

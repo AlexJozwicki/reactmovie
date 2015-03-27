@@ -21,6 +21,11 @@ class MovieList extends FluxComponent {
         super( props, { movies: MovieStore } );
     }
 
+    componentDidMount() {
+        super.componentDidMount();
+        MovieActions.getAll();
+    }
+
 
     render() {
         var headingStyle = {
