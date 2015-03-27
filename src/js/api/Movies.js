@@ -1,5 +1,12 @@
 var Uri = require( './Uri' );
 
+function status(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return Promise.resolve(response)
+  } else {
+    return Promise.reject(new Error(response.statusText))
+  }
+}
 
 var Movies = {
     getAll() {
@@ -14,7 +21,7 @@ var Movies = {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify( movie )
-            } ).then( ( response ) => response.json() );
+            } ).then( status ).then( ( response ) => response.json() );
     }
 };
 

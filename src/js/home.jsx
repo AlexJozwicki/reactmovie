@@ -44,8 +44,8 @@ injectRouter( NavBar );
 class Home extends FluxComponent {
     constructor( props ) {
         // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
-        super( props, { movieAdded: MovieActions.addMovie.completed } )
-        this.state = { notifications: Immutable.List() };
+        super( props, { movieAdded: MovieActions.addMovie.completed, addMovieFailed: MovieActions.addMovie.failed } )
+        this.state = { notifications: Immutable.List(), errors: Immutable.List() };
     }
 
     /**
@@ -56,11 +56,17 @@ class Home extends FluxComponent {
         setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
     }
 
+    addMovieFailed( error ) {
+        this.setState( { errors: this.state.errors.push( `${error}` ) } );
+        setTimeout( () => this.setState( { errors: this.state.errors.shift() } ), 3000 );
+    }
+
     render(){
         return (
             <div id="wrapper">
                 <NavBar/>
                 { this.state.notifications.map( ( notification ) => <div className="alert alert-success">{notification}</div> ) }
+                { this.state.errors.map( ( error ) => <div className="alert alert-danger">{error}</div> ) }
                 <Router.RouteHandler />
             </div>
         );
