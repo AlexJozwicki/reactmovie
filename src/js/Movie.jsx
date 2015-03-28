@@ -30,8 +30,6 @@ class Movie extends React.Component {
                 <div className="col-xs-6 col-md-9">
                     <h3>
                         {movie.title}
-                        { /* the second argument of makeHref is an object with the route params */ }
-                        <a className="btn btn-info" href={this.context.router.makeHref( 'EditMovie', { id: movie.id} )}>Edit</a>
                     </h3>
                     <p><b>Year : </b>{movie.releaseYear}</p>
                     <p><b>Directors : </b>{movie.directors}</p>

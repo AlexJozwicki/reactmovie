@@ -65,7 +65,7 @@ class Home extends FluxComponent {
     }
 
     addMovieFailed( error ) {
-        this.addNotification( `${error.error}` );
+        this.addNotification( `${error.error}`, true );
     }
 
     addNotification( message, isError = false ) {
