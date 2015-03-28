@@ -27,6 +27,12 @@ class MovieStore extends airflux.Store {
      */
     get state() { return this.movies; }
 
+
+    /**
+     * Here, we respond to the find ation.
+     * As we currently have to search the store, the best place to implement the action is here.
+     * We can trigger manually the child actions completed/failed from here.
+     */
     find( id ) {
         var movie = _.find( this.movies, { id: +id } );
         if( movie )

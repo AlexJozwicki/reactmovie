@@ -11,6 +11,15 @@ var MovieActions = {
 
     movieModified   : new airflux.Action(),
 
+    /**
+     * We define the action find as having an asynchronous result.
+     * `asyncResult` creates 2 child actions:
+     * - completed
+     * - failed
+     *
+     * Components and stores can listen to find.completed and find.failed.
+     * The search is implementend in the MovieStore.
+     */
     find            : new airflux.Action( { asyncResult: true } )
 };
 
