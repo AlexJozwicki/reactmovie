@@ -4,7 +4,8 @@ var classnames      = require( 'classnames' );
 var FluxComponent   = require( 'airflux/lib/FluxComponent' );
 var MovieActions    = require( './stores/MovieActions' );
 var Immutable       = require( 'immutable' );
-var { injectRouter }= require( './utils' );
+var { Guid,
+      injectRouter }= require( './utils' );
 
 
 class NavBar extends React.Component {
@@ -12,6 +13,10 @@ class NavBar extends React.Component {
         super( props );
     }
 
+    /**
+     * We use this.context.router.makeHref to generate a link to a route.
+     * The first arguments is the name of the route, as defined in the routes of app.js
+     */
     render() {
         return (
             <nav className="navbar navbar-default">
@@ -44,7 +49,7 @@ injectRouter( NavBar );
 class Home extends FluxComponent {
     constructor( props ) {
         // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
-        super( props, { movieAdded: MovieActions.movieAdded } )
+        super( props, { movieAdded: MovieActions.movieAdded, movieModified: MovieActions.movieModified } )
         this.state = { notifications: Immutable.List() };
     }
 
@@ -52,7 +57,15 @@ class Home extends FluxComponent {
      * We display a small notification that a movie was added
      */
     movieAdded( movie ) {
-        this.setState( { notifications: this.state.notifications.push( `${movie.title} was added` ) } );
+        this.setState( { notifications: this.state.notifications.push( { id: Guid.generate(), message: `${movie.title} was added` } ) } );
+        setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
+    }
+
+    /**
+     * We display a small notification that a movie was added
+     */
+    movieModified( movie ) {
+        this.setState( { notifications: this.state.notifications.push( { id: Guid.generate(), message: `${movie.title} was modified` } ) } );
         setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
     }
 
@@ -60,7 +73,7 @@ class Home extends FluxComponent {
         return (
             <div id="wrapper">
                 <NavBar/>
-                { this.state.notifications.map( ( notification ) => <div className="alert alert-success">{notification}</div> ) }
+                { this.state.notifications.map( ( notification ) => <div key={notification.id} className="alert alert-success">{notification.message}</div> ) }
                 <Router.RouteHandler />
             </div>
         );
