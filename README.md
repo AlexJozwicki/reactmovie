@@ -1,6 +1,17 @@
 # React Movies
 
-A tutorial application made in React.
+A tutorial application made with React, React Router and Airflux.
+The goal is to create a small application covering all the concepts of React and Flux.
+
+## Starting the tutorial
+
+```
+npm install
+gulp
+```
+
+Gulp will then start a server on port 8001.
+To access it, go to http://localhost:8001
 
 # Steps
 
@@ -11,11 +22,25 @@ A tutorial application made in React.
 3. Editing the list of movies
 4. Using stores to keep the list of movies
 5. Creating new routes for your application using React Router
+6. Asynchronous call to a web service
+
 
 ## Step 1
 
 ### Concepts covered
-React Components, State
+
+React Application, React Components, State
+
+### Building tools
+
+The project is built around gulp task manager responsible for:
+- building your application with Browserify
+- building the CSS
+- starting a livereload server on port 8001
+
+### Project anatomy
+
+
 
 ## Step 2
 
@@ -44,7 +69,7 @@ Passing Props between components
 
 ### Concepts covered
 
-1. Simple routing 
+1. Simple routing
 2. MovieEditor: Seperating the loading logic from the display logic
 3. Using child actions to map an asynchronous result (.completed/.failed)
 
