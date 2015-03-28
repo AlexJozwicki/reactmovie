@@ -14,7 +14,7 @@ var MovieList = require( './MovieList' );
  */
 const routes = (
     <Router.Route path="/" handler={Home}>
-        <Router.DefaultRoute handler={BasicReactSample} />
+        <Router.DefaultRoute handler={MovieList} />
         <Router.Route name="MovieList" path="/list" addHandlerKey={true} handler={MovieList}/>
         <Router.NotFoundRoute handler={BasicReactSample}/>
     </Router.Route>
