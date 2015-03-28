@@ -1,14 +1,13 @@
 var React       = require( 'react' );
-var _           = require( 'lodash' );
-var classnames  = require( 'classnames' );
-var Modal       = require( './components/Modal' );
-var Movie       = require( './Movie' );
-var MovieForm   = require( './MovieForm' );
+var _               = require( 'lodash' );
+var Modal           = require( './components/Modal' );
+var Movie           = require( './Movie' );
+var MovieForm       = require( './MovieForm' );
 
 
-var MovieActions= require( './stores/MovieActions' );
-var MovieStore  = require( './stores/MovieStore' );
-var FluxComponent= require( 'airflux/lib/FluxComponent' );
+var MovieActions    = require( './stores/MovieActions' );
+var MovieStore      = require( './stores/MovieStore' );
+var FluxComponent   = require( 'airflux/lib/FluxComponent' );
 
 
 /**
