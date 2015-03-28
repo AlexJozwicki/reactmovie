@@ -1,4 +1,5 @@
 var React       = require( 'react' );
+var { injectRouter }= require( './utils' );
 
 /**
  * Movie class does the rendering of a single movie.
@@ -10,6 +11,10 @@ class Movie extends React.Component {
         super( props );
     }
 
+    /**
+     * Conditional part of your component can go into separate functions, with a guard.
+     * A function can return `undefined` and be used inside a JSX block: nothing will be rendered.
+     */
     renderPoster() {
         if( !this.props.movie.poster ) return;
 
@@ -17,16 +22,22 @@ class Movie extends React.Component {
     }
 
     render() {
+        var movie = this.props.movie;
+
         return (
             <div className="row">
                 { this.renderPoster() }
                 <div className="col-xs-6 col-md-9">
-                    <h3>{this.props.movie.title}</h3>
-                    <p><b>Year : </b>{this.props.movie.releaseYear}</p>
-                    <p><b>Directors : </b>{this.props.movie.directors}</p>
-                    <p><b>Actors : </b>{this.props.movie.actors}</p>
-                    <p><b>Synopsis : </b>{this.props.movie.synopsis}</p>
-                    <p><b>Rating : </b>{this.props.movie.rate}</p>
+                    <h3>
+                        {movie.title}
+                        { /* the second argument of makeHref is an object with the route params */ }
+                        <a className="btn btn-info" href={this.context.router.makeHref( 'EditMovie', { id: movie.id} )}>Edit</a>
+                    </h3>
+                    <p><b>Year : </b>{movie.releaseYear}</p>
+                    <p><b>Directors : </b>{movie.directors}</p>
+                    <p><b>Actors : </b>{movie.actors}</p>
+                    <p><b>Synopsis : </b>{movie.synopsis}</p>
+                    <p><b>Rating : </b>{movie.rate}</p>
                 </div>
             </div>
         );
@@ -36,4 +47,4 @@ class Movie extends React.Component {
 // checking of types passed by the parents is done by setting the static attribute `propTypes`
 Movie.propTypes = { movie: React.PropTypes.object.isRequired };
 
-module.exports = Movie;
+module.exports = injectRouter( Movie );

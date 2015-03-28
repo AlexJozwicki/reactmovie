@@ -1,14 +1,14 @@
 var React           = require( 'react' );
 var _               = require( 'lodash' );
-var { injectRouter }= require( './utils' );
+var { injectRouter }= require( '../utils' );
 
-var MovieActions= require( './stores/MovieActions' );
-var MovieStore  = require( './stores/MovieStore' );
-var FluxComponent= require( 'airflux/lib/FluxComponent' );
+var MovieActions    = require( '../stores/MovieActions' );
+
 
 
 /**
- * The form to edit a movie
+ * The form to edit a movie.
+ * The component does only the rendering.
  */
 class MovieForm extends React.Component {
     constructor( props ) {
@@ -86,50 +86,10 @@ class MovieForm extends React.Component {
 }
 
 MovieForm.propTypes = {
-    movie       : React.PropTypes.object,
-    saveMovie   : React.PropTypes.func.isRequired
+    movie       : React.PropTypes.object
 };
 injectRouter( MovieForm );
 
 
-class MovieEditor extends FluxComponent {
-    constructor( props ) {
-        super( props, { movieLoaded: MovieActions.find.completed } );
-        this.state = { movie: null };
-    }
 
-    loadMovie() {
-        var id = this.context.router.getCurrentParams().id;
-        if( id ) {
-            MovieStore.find( id );
-        }
-        else {
-            this.setState( { movie: {} } );
-        }
-    }
-
-    movieLoaded( movie ) {
-        this.setState( { movie: movie } );
-    }
-
-    componentDidMount() {
-        super.componentDidMount();
-        this.loadMovie();
-    }
-
-    componentWillReceiveProps( nextProps ) {
-        this.loadMovie();
-    }
-
-    render() {
-        if( !this.state.movie ) return null;
-
-        return (
-            <MovieForm movie={this.state.movie}/>
-        );
-    }
-}
-injectRouter( MovieEditor );
-
-
-module.exports = MovieEditor;
+module.exports = MovieForm;

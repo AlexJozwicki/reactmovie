@@ -4,7 +4,8 @@ var classnames      = require( 'classnames' );
 var FluxComponent   = require( 'airflux/lib/FluxComponent' );
 var MovieActions    = require( './stores/MovieActions' );
 var Immutable       = require( 'immutable' );
-var { injectRouter }= require( './utils' );
+var { Guid,
+      injectRouter }= require( './utils' );
 
 
 class NavBar extends React.Component {
@@ -12,6 +13,10 @@ class NavBar extends React.Component {
         super( props );
     }
 
+    /**
+     * We use this.context.router.makeHref to generate a link to a route.
+     * The first arguments is the name of the route, as defined in the routes of app.js
+     */
     render() {
         return (
             <nav className="navbar navbar-default">
@@ -44,29 +49,37 @@ injectRouter( NavBar );
 class Home extends FluxComponent {
     constructor( props ) {
         // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
-        super( props, { movieAdded: MovieActions.addMovie.completed, addMovieFailed: MovieActions.addMovie.failed } )
-        this.state = { notifications: Immutable.List(), errors: Immutable.List() };
+        super( props, {
+            movieAdded      : MovieActions.addMovie.completed,
+            addMovieFailed  : MovieActions.addMovie.failed
+        } );
+
+        this.state = { notifications: Immutable.List()};
     }
 
     /**
      * We display a small notification that a movie was added
      */
     movieAdded( movie ) {
-        this.setState( { notifications: this.state.notifications.push( `${movie.title} was added` ) } );
-        setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
+        this.addNotification( `${movie.title} was added` );
     }
 
     addMovieFailed( error ) {
-        this.setState( { errors: this.state.errors.push( `${error.error}` ) } );
-        setTimeout( () => this.setState( { errors: this.state.errors.shift() } ), 3000 );
+        this.addNotification( `${error.error}` );
+    }
+
+    addNotification( message, isError = false ) {
+        this.setState( { notifications: this.state.notifications.push( { id: Guid.generate(), message: message, isError: isError } ) } );
+        setTimeout( () => this.setState( { notifications: this.state.notifications.shift() } ), 3000 );
     }
 
     render(){
         return (
             <div id="wrapper">
                 <NavBar/>
-                { this.state.notifications.map( ( notification ) => <div className="alert alert-success">{notification}</div> ) }
-                { this.state.errors.map( ( error ) => <div className="alert alert-danger">{error}</div> ) }
+                { this.state.notifications.map( ( notification ) =>
+                    <div key={notification.id} className={classnames( 'alert', { 'alert-success': !notification.isError, 'alert-danger': notification.isError } )}>{notification.message}</div>
+                )}
                 <Router.RouteHandler />
             </div>
         );
