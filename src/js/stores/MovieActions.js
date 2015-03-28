@@ -20,7 +20,11 @@ var MovieActions = {
 
 
 /**
- * listen will execute the function getAll.
+ * We previously implemented the action find in the store, as the data are in the store.
+ * getAll will now only do a call to a web service to get the informations.
+ * We can simply use the `listen` function.
+ *
+ * `listen` will execute the function MoviesApi.getAll when the acttion is triggered.
  * If it's a promise, it will be map to the chil actions .completed and .failed.
  */
 MovieActions.getAll.listen( MoviesApi.getAll );
