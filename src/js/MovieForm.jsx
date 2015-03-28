@@ -73,7 +73,7 @@ class MovieForm extends React.Component {
 
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn btn-primary" onClick={this.saveMovie.bind( this )}>Save changes</button>
+                    <button type="button" className="btn btn-primary" onClick={() => this.saveMovie()}>Save changes</button>
                 </div>
             </div>
         );

@@ -1,5 +1,4 @@
 module.exports = {
-    Guid           : require( "./Guid" ),
-    Utils          : require( "./Utils" ),
-    invariant      : require( "./invariant" )
+    Guid           : require( './Guid' ),
+    injectRouter   : require( './injectRouter' )
 };
