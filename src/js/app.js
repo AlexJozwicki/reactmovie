@@ -6,7 +6,11 @@ var MovieList = require( './MovieList' );
 
 
 /**
- * The routes of your application
+ * The routes of your application.
+ *
+ * The handler `Home` is the scaffolding of the application and is always rendered.
+ * Afterwards, React Router will resolve the routes, and pass the proper React component to Home.
+ * Home will then insert it into its rendering.
  */
 const routes = (
     <Router.Route path="/" handler={Home}>

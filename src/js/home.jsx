@@ -29,10 +29,12 @@ class NavBar extends React.Component {
 
 injectRouter( NavBar );
 
+
 /**
+ * Home is now the scaffolding component of the application:
+ * React Router will always render this component.
  *
- * HOME PAGE
- *
+ * The component corresponding to the active route is rendered using Router.RouteHandler
  */
 class Home extends React.Component {
     constructor( props ) {
