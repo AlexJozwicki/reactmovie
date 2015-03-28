@@ -62,7 +62,7 @@ gulp.task('html', function(){
 });
 
 gulp.task('watch', ['watchify'], function(cb) {
-    gulp.watch(['./src/js/**/*.{js,jsx}'], ['lint']);
+    gulp.watch(['./src/js/**/*.{js,jsx}']);
     gulp.watch(['./src/css/**/_*.scss', './src/css/**/*.scss'], ['sass']);
     gulp.watch(['./src/images/**/*.{gif,png,jpg}'], ['img']);
     gulp.watch('./src/*.html', ['html']);
