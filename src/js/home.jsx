@@ -1,26 +1,11 @@
 var React           = require( 'react' );
-var Router          = require( 'react-router' );
-var classnames      = require( 'classnames' );
+var BasicReactSample = require( './BasicReactSample' );
+
 
 /**
- * Injects the router into the class
- * @param  {React.Component} cl the class of your component
- * @return {React.Component}
+ * We start to split components into their own classes
  */
-function injectRouter( cl ) {
-    cl.contextTypes = {
-        router: React.PropTypes.func.isRequired
-    };
-
-    return cl;
-}
-
-
 class NavBar extends React.Component {
-    constructor( props ) {
-        super( props );
-    }
-
     render() {
         return (
             <nav className="navbar navbar-default">
@@ -40,24 +25,21 @@ class NavBar extends React.Component {
     }
 }
 
+
 /**
- *
- * HOME PAGE
- *
+ * Home now composes several components together
+ * - NavBar defined here
+ * - BasicReactSample defined in another file, included using require
  */
 class Home extends React.Component {
-    constructor( props ) {
-        super( props )
-    }
-
     render(){
         return (
             <div id="wrapper">
                 <NavBar/>
-                <Router.RouteHandler />
+                <BasicReactSample />
             </div>
         );
     }
 }
 
-module.exports = injectRouter( Home );
+module.exports = Home;
