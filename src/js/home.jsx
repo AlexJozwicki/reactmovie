@@ -1,23 +1,9 @@
 var React           = require( 'react' );
 var Router          = require( 'react-router' );
-var classnames      = require( 'classnames' );
+var { injectRouter }= require( './utils' );
 var FluxComponent   = require( 'airflux/lib/FluxComponent' );
 var MovieActions    = require( './stores/MovieActions' );
 var Immutable       = require( 'immutable' );
-
-
-/**
- * Injects the router into the class
- * @param  {React.Component} cl the class of your component
- * @return {React.Component}
- */
-function injectRouter( cl ) {
-    cl.contextTypes = {
-        router: React.PropTypes.func.isRequired
-    };
-
-    return cl;
-}
 
 
 class NavBar extends React.Component {
@@ -46,8 +32,6 @@ class NavBar extends React.Component {
 injectRouter( NavBar );
 
 
-
-
 /**
  *
  * HOME PAGE
@@ -55,7 +39,9 @@ injectRouter( NavBar );
  */
 class Home extends FluxComponent {
     constructor( props ) {
-        // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
+        /**
+         * We listen to the `movieAdded` action, which will call the `movieAdded` method of our class
+         */
         super( props, { movieAdded: MovieActions.movieAdded } )
         this.state = { notifications: Immutable.List() };
     }
