@@ -17,8 +17,19 @@ class BasicReactSample extends React.Component {
 
     /**
      * Returns a ValueLink object, used by React to link an input to your React application.
+     * A ValueLink is a JavaScript object with a `value` and a `requestChange` function.
+     *
      * This particular function links an input to the state of the component.
-     * You can create your own functions.
+     *
+     * ValueLink is THE correct way to bind an input in React. You should always use a ValueLink and avoid as much as
+     * possible using plain onChange.
+     *
+     * Don't hesitate to create your own function returning a ValueLink object!
+     * The implementation of requestChange can be anything you want: mapped directly to a variable of a store, setting
+     * a dirty/modified flag, triggering an asynchronous action on a server (like a search, using a debounce function)..
+     *
+     * Checkboxes are a special case. The valueLink object will have the same interface (value/requestChange), but
+     * will be passed to the checkbox using `checkedLink` instead of `valueLink`.
      */
     linkState( key ) {
         return {
