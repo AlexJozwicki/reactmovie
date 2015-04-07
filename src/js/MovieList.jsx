@@ -1,14 +1,13 @@
-var React       = require( 'react' );
-var _           = require( 'lodash' );
-var classnames  = require( 'classnames' );
+import React            from 'react' ;
+import _                from 'lodash' ;
+import classnames       from 'classnames' ;
+import Movie            from './Movie' ;
+import { injectRouter } from './utils';
 
-var FluxComponent= require( 'airflux/lib/FluxComponent' );
 
-var { injectRouter }= require( './utils' );
-
-var MovieActions= require( './stores/MovieActions' );
-var MovieStore  = require( './stores/MovieStore' );
-var Movie       = require( './Movie' );
+import * as MovieActions from './stores/MovieActions';
+import MovieStore       from './stores/MovieStore' ;
+import FluxComponent    from 'airflux/lib/FluxComponent' ;
 
 
 /**
@@ -41,6 +40,5 @@ class MovieList extends FluxComponent {
         );
     }
 }
-injectRouter( MovieList );
 
-module.exports = MovieList;
+export default injectRouter( MovieList );

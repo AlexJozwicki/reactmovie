@@ -1,9 +1,9 @@
-var _           = require( 'lodash' );
-var airflux     = require( 'airflux' );
+import _ from 'lodash';
+import airflux from 'airflux';
+import * as MovieActions from './MovieActions';
+import { Guid } from '../utils';
+import movies from '../data/movies';
 
-var MovieActions= require( './MovieActions' );
-var { Guid }    = require( '../utils' );
-var movies      = require( '../data/movies' );
 
 
 /**
@@ -65,4 +65,4 @@ class MovieStore extends airflux.Store {
 }
 
 
-module.exports = new MovieStore();
+export default new MovieStore();
