@@ -5,7 +5,7 @@ import Movie            from './Movie' ;
 import MovieForm        from './MovieForm' ;
 
 
-import MovieActions     from './stores/MovieActions' ;
+import * as MovieActions from './stores/MovieActions';
 import MovieStore       from './stores/MovieStore' ;
 import FluxComponent    from 'airflux/lib/FluxComponent' ;
 
