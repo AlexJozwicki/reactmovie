@@ -1,5 +1,5 @@
-var React           = require( 'react' );
-var BasicReactSample = require( './BasicReactSample' );
+import React from 'react';
+import BasicReactSample from './BasicReactSample';
 
 
 /**
@@ -31,7 +31,7 @@ class NavBar extends React.Component {
  * - NavBar defined here
  * - BasicReactSample defined in another file, included using require
  */
-class Home extends React.Component {
+export default class Home extends React.Component {
     render(){
         return (
             <div id="wrapper">
@@ -41,5 +41,3 @@ class Home extends React.Component {
         );
     }
 }
-
-module.exports = Home;
