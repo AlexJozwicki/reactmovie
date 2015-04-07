@@ -1,5 +1,5 @@
-var React       = require( 'react' );
-var movies      = require( './data/movies' );
+import React from 'react';
+import movies from './data/movies';
 
 
 /**
@@ -38,7 +38,7 @@ Movie.propTypes = { movie: React.PropTypes.object.isRequired };
 /**
  * Our movie list component
  */
-class MovieList extends React.Component {
+export default class MovieList extends React.Component {
     render() {
         return (
             <div className="container">
@@ -49,5 +49,3 @@ class MovieList extends React.Component {
         );
     }
 }
-
-module.exports = MovieList;

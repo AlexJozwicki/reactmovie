@@ -1,6 +1,6 @@
-var React       = require( 'react' );
+import React from 'react';
 
-class BasicReactSample extends React.Component {
+export default class BasicReactSample extends React.Component {
     constructor(props) {
         super( props );
         this.state = { name: 'John Doe' };  // the state holds the dynamic data of your components
@@ -25,5 +25,3 @@ class BasicReactSample extends React.Component {
         );
     }
 }
-
-module.exports = BasicReactSample;
