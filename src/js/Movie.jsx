@@ -1,5 +1,5 @@
-var React       = require( 'react' );
-var { injectRouter }= require( './utils' );
+import React from 'react';
+import { injectRouter } from './utils';
 
 /**
  * Movie class does the rendering of a single movie.
@@ -45,4 +45,4 @@ class Movie extends React.Component {
 // checking of types passed by the parents is done by setting the static attribute `propTypes`
 Movie.propTypes = { movie: React.PropTypes.object.isRequired };
 
-module.exports = injectRouter( Movie );
+export default injectRouter( Movie );

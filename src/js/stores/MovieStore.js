@@ -1,8 +1,7 @@
-var _               = require( 'lodash' );
-var airflux         = require( 'airflux' );
-
-var MovieActions    = require( './MovieActions' );
-var { Guid }        = require( '../utils' );
+import _ from 'lodash';
+import airflux from 'airflux';
+import * as MovieActions from './MovieActions';
+import { Guid } from '../utils';
 
 
 
@@ -33,6 +32,12 @@ class MovieStore extends airflux.Store {
      */
     get state() { return this.movies; }
 
+
+    /**
+     * Here, we respond to the find ation.
+     * As we currently have to search the store, the best place to implement the action is here.
+     * We can trigger manually the child actions completed/failed from here.
+     */
     find( id ) {
         var movie = _.find( this.movies, { id: +id } );
         if( movie )
@@ -49,4 +54,4 @@ class MovieStore extends airflux.Store {
 }
 
 
-module.exports = new MovieStore();
+export default new MovieStore();

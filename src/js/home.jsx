@@ -1,11 +1,10 @@
-var React           = require( 'react' );
-var Router          = require( 'react-router' );
-var classnames      = require( 'classnames' );
-var FluxComponent   = require( 'airflux/lib/FluxComponent' );
-var MovieActions    = require( './stores/MovieActions' );
-var Immutable       = require( 'immutable' );
-var { Guid,
-      injectRouter }= require( './utils' );
+import React from 'react';
+import Router from 'react-router';
+import classnames from 'classnames';
+import { Guid, injectRouter } from './utils';
+import FluxComponent    from 'airflux/lib/FluxComponent';
+import * as MovieActions from './stores/MovieActions';
+import Immutable        from 'immutable';
 
 
 class NavBar extends React.Component {
@@ -86,4 +85,4 @@ class Home extends FluxComponent {
     }
 }
 
-module.exports = injectRouter( Home );
+export default injectRouter( Home );

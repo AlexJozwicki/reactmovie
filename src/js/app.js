@@ -1,13 +1,13 @@
 // https://github.com/github/fetch
 // require here because it's polyfill...
-require( 'whatwg-fetch' );
+import 'whatwg-fetch';
 
-var React               = require('react');
-var Router              = require('react-router');
-var Home                = require('./home');
-var BasicReactSample    = require( './BasicReactSample' );
-var MovieList           = require( './MovieList' );
-var MovieEditor         = require( './editor' );
+import React from 'react';
+import Router from 'react-router';
+import Home from './home';
+import BasicReactSample from './BasicReactSample';
+import MovieList from './MovieList';
+import MovieEditor from './editor';
 
 
 /**
