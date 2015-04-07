@@ -1,7 +1,3 @@
-// https://github.com/github/fetch
-// require here because it's polyfill...
-import 'whatwg-fetch';
-
 import React from 'react';
 import Router from 'react-router';
 import Home from './home';
