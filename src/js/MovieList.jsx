@@ -1,10 +1,10 @@
-var React       = require( 'react' );
-var _           = require( 'lodash' );
-var Modal       = require( './components/Modal' );
+import React from 'react';
+import _ from 'lodash';
+import Modal from './components/Modal';
 
-var Movie       = require( './Movie' );
-var MovieForm   = require( './MovieForm' );
-var { Guid }    = require( './utils' );
+import Movie from './Movie';
+import MovieForm from './MovieForm';
+import { Guid } from './utils';
 
 
 /**
@@ -13,7 +13,7 @@ var { Guid }    = require( './utils' );
 var movies = require( './data/movies' );
 
 
-class MovieList extends React.Component {
+export default class MovieList extends React.Component {
     constructor(props) {
         super( props );
         this.state = {
@@ -58,7 +58,7 @@ class MovieList extends React.Component {
                 <header className="row">
                     <div className="col-md-6 col-md-offset-1"><h1 style={headingStyle}>My movies <small>{this.state.movies.length} movies</small></h1></div>
                     <div className="col-md-3">
-                        <button className="btn btn-primary" onClick={this.showModal.bind( this )}>Add movie</button>
+                        <button className="btn btn-primary" onClick={() => this.showModal()}>Add movie</button>
                     </div>
                 </header>
                 <ul className="thumbnails">
@@ -73,5 +73,3 @@ class MovieList extends React.Component {
         );
     }
 }
-
-module.exports = MovieList;

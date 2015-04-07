@@ -1,6 +1,5 @@
-var React       = require( 'react' );
-var Immutable   = require( 'immutable' );
-var classnames  = require( 'classnames' );
+import React from 'react';
+
 
 class BasicReactSample extends React.Component {
     constructor(props) {

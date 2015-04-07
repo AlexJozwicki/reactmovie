@@ -1,12 +1,12 @@
-var React       = require( 'react' );
-var _           = require( 'lodash' );
+import React from 'react';
+import _ from 'lodash';
 
 
 
 /**
  * The form to edit a movie
  */
-class MovieForm extends React.Component {
+export default class MovieForm extends React.Component {
     constructor( props ) {
         super( props );
 
@@ -84,6 +84,3 @@ MovieForm.propTypes = {
     movie       : React.PropTypes.object,
     saveMovie   : React.PropTypes.func.isRequired
 };
-
-
-module.exports = MovieForm;

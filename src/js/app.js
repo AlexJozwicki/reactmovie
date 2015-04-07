@@ -1,8 +1,8 @@
-var React   = require('react');
-var Router  = require('react-router');
-var Home    = require('./home');
-var BasicReactSample = require( './BasicReactSample' );
-var MovieList = require( './MovieList' );
+import React from 'react';
+import Router from 'react-router';
+import Home from './home';
+import BasicReactSample from './BasicReactSample';
+import MovieList from './MovieList';
 
 
 /**
