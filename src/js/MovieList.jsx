@@ -1,13 +1,13 @@
-var React       = require( 'react' );
-var _               = require( 'lodash' );
-var Modal           = require( './components/Modal' );
-var Movie           = require( './Movie' );
-var MovieForm       = require( './MovieForm' );
+import React            from 'react' ;
+import _                from 'lodash' ;
+import Modal            from './components/Modal' ;
+import Movie            from './Movie' ;
+import MovieForm        from './MovieForm' ;
 
 
-var MovieActions    = require( './stores/MovieActions' );
-var MovieStore      = require( './stores/MovieStore' );
-var FluxComponent   = require( 'airflux/lib/FluxComponent' );
+import MovieActions     from './stores/MovieActions' ;
+import MovieStore       from './stores/MovieStore' ;
+import FluxComponent    from 'airflux/lib/FluxComponent' ;
 
 
 /**

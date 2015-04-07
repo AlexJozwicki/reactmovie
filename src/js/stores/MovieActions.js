@@ -1,11 +1,3 @@
-var airflux = require( 'airflux' );
+import airflux from 'airflux';
 
-var MovieActions = {
-    /**
-     * An action is an event in your application that any store or component can listen to and react
-     * By default, every action is asynchonous.
-     */
-    addMovie: new airflux.Action()
-};
-
-module.exports = MovieActions;
+export var addMovie = new airflux.Action();

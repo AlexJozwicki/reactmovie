@@ -1,6 +1,6 @@
-var React           = require( 'react' );
-var Router          = require( 'react-router' );
-var { injectRouter }= require( './utils' );
+import React from 'react';
+import Router from 'react-router';
+import { injectRouter } from './utils';
 
 
 class NavBar extends React.Component {
@@ -49,4 +49,4 @@ class Home extends React.Component {
     }
 }
 
-module.exports = injectRouter( Home );
+export default injectRouter( Home );

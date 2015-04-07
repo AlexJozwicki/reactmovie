@@ -1,7 +1,7 @@
-var React       = require( 'react' );
-var classnames  = require( 'classnames' );
+import React from 'react';
+import classnames from 'classnames';
 
-class Modal extends React.Component {
+export default class Modal extends React.Component {
     constructor(props) {
         super( props );
     }
@@ -31,5 +31,3 @@ Modal.propTypes = {
     visible : React.PropTypes.bool.isRequired,
     onCloseRequest: React.PropTypes.func.isRequired
 };
-
-module.exports = Modal;
