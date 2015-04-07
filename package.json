@@ -51,8 +51,7 @@
   },
   "browserify": {
     "transform": [
-      "coffeeify",
-      "babelify"
+       [ "babelify", { "modules": "common"} ]
     ]
   },
   "engines": {

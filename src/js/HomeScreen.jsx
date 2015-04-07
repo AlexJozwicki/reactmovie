@@ -1,4 +1,4 @@
-var React           = require( 'react' );
+import React from 'react';
 
 
 /**
@@ -6,7 +6,7 @@ var React           = require( 'react' );
  *
  * In React, everything is a component and inherits from React.Component.
  */
-class Home extends React.Component {
+export default class Home extends React.Component {
     /**
      * Every component has a render method to render itself.
      * The render method returns a Component Tree using the JSX syntax.
@@ -43,5 +43,3 @@ class Home extends React.Component {
         );
     }
 }
-
-module.exports = Home;

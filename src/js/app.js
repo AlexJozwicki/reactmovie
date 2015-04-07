@@ -1,5 +1,5 @@
-var React       = require( 'react' );
-var HomeScreen  = require( './HomeScreen' );
+import React from 'react';
+import HomeScreen from './HomeScreen';
 
 
 /**
