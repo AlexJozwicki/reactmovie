@@ -1,11 +1,11 @@
-var React       = require( 'react' );
+import React from 'react';
 
 /**
  * Movie class does the rendering of a single movie.
  * Data from the parents are passed using the `props` parameters.
  * Props are available throughout your class using `this.props`
  */
-class Movie extends React.Component {
+export default class Movie extends React.Component {
     constructor(props) {
         super( props );
     }
@@ -35,5 +35,3 @@ class Movie extends React.Component {
 
 // checking of types passed by the parents is done by setting the static attribute `propTypes`
 Movie.propTypes = { movie: React.PropTypes.object.isRequired };
-
-module.exports = Movie;

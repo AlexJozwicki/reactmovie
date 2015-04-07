@@ -1,8 +1,8 @@
-var React       = require( 'react' );
-var Immutable   = require( 'immutable' );
-var classnames  = require( 'classnames' );
+import React from 'react';
+import Immutable from 'immutable';
+import classnames from 'classnames';
 
-class BasicReactSample extends React.Component {
+export default class BasicReactSample extends React.Component {
     constructor(props) {
         super( props );
         this.state = { name: 'John Doe' };  // the state holds the dynamic data of your components
@@ -27,5 +27,3 @@ class BasicReactSample extends React.Component {
         );
     }
 }
-
-module.exports = BasicReactSample;

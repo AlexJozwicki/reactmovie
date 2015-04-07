@@ -1,7 +1,7 @@
-var airflux         = require( 'airflux' );
-var MovieActions    = require( './MovieActions' );
-var Guid            = require( '../utils/Guid' );
-var movies          = require( '../data/movies' );
+import airflux from 'airflux';
+import * as MovieActions from './MovieActions';
+import Guid from '../utils/Guid';
+import movies from '../data/movies';
 
 
 
@@ -38,4 +38,4 @@ class MovieStore extends airflux.Store {
 }
 
 
-module.exports = new MovieStore();
+export default new MovieStore();
