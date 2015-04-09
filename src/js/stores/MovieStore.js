@@ -1,6 +1,6 @@
 import airflux from 'airflux';
 import * as MovieActions from './MovieActions';
-import Guid from '../utils/Guid';
+import * as Guid from '../utils/Guid';
 import movies from '../data/movies';
 
 
