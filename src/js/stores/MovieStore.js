@@ -36,9 +36,9 @@ class MovieStore extends airflux.Store {
     find( id ) {
         var movie = _.find( this.movies, { id: +id } );
         if( movie )
-            MovieActions.find.completed( movie );
+            MovieActions.find.action.completed( movie );
         else
-            MovieActions.find.failed( 'The movie could not be found in the database' );
+            MovieActions.find.action.failed( 'The movie could not be found in the database' );
     }
 
 

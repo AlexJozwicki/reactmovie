@@ -1,8 +1,8 @@
-var React           = require( 'react' );
-var _               = require( 'lodash' );
-var { injectRouter }= require( '../utils' );
+import React        from 'react';
+import _            from 'lodash';
+import { injectRouter } from '../utils';
 
-var MovieActions    = require( '../stores/MovieActions' );
+import * as MovieActions    from '../stores/MovieActions';
 
 
 
@@ -92,4 +92,4 @@ injectRouter( MovieForm );
 
 
 
-module.exports = MovieForm;
+export default MovieForm;
