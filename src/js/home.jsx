@@ -49,8 +49,8 @@ class Home extends FluxComponent {
     constructor( props ) {
         // we listen to the `movieAdded` action, which will call the `movieAdded` method of our class
         super( props, {
-            movieAdded      : MovieActions.addMovie.completed,
-            addMovieFailed  : MovieActions.addMovie.failed
+            movieAdded      : MovieActions.addMovie.action.completed,
+            addMovieFailed  : MovieActions.addMovie.action.failed
         } );
 
         this.state = { notifications: Immutable.List()};

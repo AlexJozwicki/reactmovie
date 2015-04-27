@@ -7,8 +7,7 @@ import { MoviesApi } from '../api';
  * By default, every action is asynchonous.
  * A new actions with a async result:  basically, two sub actions are created: completed and failed
  */
-export var addMovie = new airflux.Action( { asyncResult: true } );
-addMovie.listen( MoviesApi.addMovie );
+export var addMovie = new airflux.Action().asyncResult( MoviesApi.addMovie ).asFunction;
 
 
 /**
@@ -19,10 +18,9 @@ addMovie.listen( MoviesApi.addMovie );
  * `listen` will execute the function MoviesApi.getAll when the acttion is triggered.
  * If it's a promise, it will be map to the chil actions .completed and .failed.
  */
-export var getAll = new airflux.Action( { asyncResult: true } );
-getAll.listen( MoviesApi.getAll );
+export var getAll = new airflux.Action().asyncResult( MoviesApi.getAll ).asFunction;
 
 
-export var movieModified = new airflux.Action();
+export var movieModified = new airflux.Action().asFunction;
 
-export var find = new airflux.Action( { asyncResult: true } );
+export var find = new airflux.Action().asyncResult().asFunction;

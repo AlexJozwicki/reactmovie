@@ -17,9 +17,9 @@ class MovieStore extends airflux.Store {
         /**
          * Here we listen to the action `addMovie`
          */
-        this.listenTo( MovieActions.addMovie.completed, this.movieAdded );
+        this.listenTo( MovieActions.addMovie.action.completed, this.movieAdded );
         this.listenTo( MovieActions.find    , this.find );
-        this.listenTo( MovieActions.getAll.completed, this.gotAllMovies );
+        this.listenTo( MovieActions.getAll.action.completed, this.gotAllMovies );
     }
 
     gotAllMovies( response ) {

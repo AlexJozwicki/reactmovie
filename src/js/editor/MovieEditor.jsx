@@ -1,12 +1,12 @@
-var _               = require( 'lodash' );
-var React           = require( 'react' );
-var FluxComponent   = require( 'airflux/lib/FluxComponent' );
+import _                    from 'lodash';
+import React                from 'react';
+import FluxComponent        from 'airflux/lib/FluxComponent';
 
-var { injectRouter }= require( '../utils' );
+import { injectRouter }     from '../utils';
 
-var MovieActions    = require( '../stores/MovieActions' );
-var MovieStore      = require( '../stores/MovieStore' );
-var MovieForm       = require( './MovieForm' );
+import * as MovieActions    from '../stores/MovieActions';
+import MovieStore           from '../stores/MovieStore';
+import MovieForm            from './MovieForm';
 
 
 /**
@@ -20,7 +20,7 @@ var MovieForm       = require( './MovieForm' );
  */
 class MovieEditor extends FluxComponent {
     constructor( props ) {
-        super( props, { movieLoaded: MovieActions.find.completed, onError: MovieActions.find.failed } );
+        super( props, { movieLoaded: MovieActions.find.action.completed, onError: MovieActions.find.action.failed } );
         this.state = { movie: null, error: null };
     }
 
