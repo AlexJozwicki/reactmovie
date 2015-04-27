@@ -11,13 +11,13 @@
     "moment": "2.9.0",
     "react": "0.13.1",
     "react-router": "~0.13.1",
-    "airflux": "0.1.0",
+    "airflux": "~0.2.1",
     "validator": "3.23.0",
     "whatwg-fetch": "^0.7.0"
   },
   "devDependencies": {
     "babel-eslint": "1.0.12",
-    "babelify": "5.0.4",
+    "babelify": "6.0.2",
     "browserify": "~7.1.0",
     "classnames": "^1.2.0",
     "coffeeify": "~1.0.0",

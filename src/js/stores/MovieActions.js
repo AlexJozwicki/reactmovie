@@ -1,3 +1,3 @@
 import airflux from 'airflux';
 
-export var addMovie = new airflux.Action();
+export var addMovie = new airflux.Action().asFunction;
